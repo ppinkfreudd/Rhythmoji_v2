@@ -22,6 +22,9 @@ const spotifyApi = new SpotifyWebApi({
   redirectUri: process.env.SPOTIPY_REDIRECT_URI
 });
 
+
+app.get('/display', generateCreativePrompt);
+
 // Routes
 app.get('/login', (req, res) => {
   var scopes = ['user-top-read'],
@@ -66,34 +69,16 @@ app.get('/callback', (req, res) => {
 });
 
 
-// Route to display generated creative description
 app.get('/display', async (req, res) => {
-  try {
-    // Simulating the reception of genres and calling the GPT model
-    const genres = ['rap', 'pop', 'jazz'];  // Normally, you'd get this from the user's profile or selection
-    const creativeDescription = await generateCreativePrompt(genres); // Call the GPT function
-
-    // Render HTML with the GPT output
-    const htmlContent = `<!DOCTYPE html>
-      <html lang="en">
-      <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Creative Description</title>
-      </head>
-      <body>
-          <h1>Your Creative Character Description</h1>
-          <div id="gptOutput">
-              <p>${creativeDescription}</p>
-          </div>
-      </body>
-      </html>`;
-
-    res.send(htmlContent);
-  } catch (error) {
-    console.error("Error in /display route:", error);
-    res.status(500).send("An error occurred while generating the creative description");
-  }
+    // Simulate a request body with genre data
+    req.body.genres = [
+        { genre: "rap", count: 5 },
+        { genre: "pop", count: 3 },
+        { genre: "jazz", count: 2 }
+    ];
+  
+    // Then call the middleware manually (not typical usage, just for simulation)
+    await generateCreativePrompt(req, res);
 });
 
 // Helper function to get top items by count

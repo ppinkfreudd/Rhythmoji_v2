@@ -10,6 +10,11 @@ const generateCreativePrompt = async (req, res) => {
     // Expecting req.body.genres to be an array of objects like [{genre: 'rap', count: 5}, ...]
     const genreObjects = req.body.genres;  // Now an array of objects
 
+        if (!Array.isArray(genreObjects)) {
+            // Handle the error appropriately
+            console.error("Genres is undefined or not an array");
+            return res.status(400).send("Invalid genres format. Expected an array of genre objects.");
+        }
     // Extract just the genre names from each object
     const genres = genreObjects.map(g => g.genre);  // Now an array of genre names
 
@@ -37,15 +42,10 @@ const generateCreativePrompt = async (req, res) => {
 
         // Log the GPT's output to the console
         console.log("GPT-4 Output:", response.choices[0].text);
-        res.status(200).json({
-          response: response.choices[0].message.content,
-        });
+        res.status(200).send(creativeDescription);  // Send back the response
     } catch (error) {
-        console.error("Error generating response from OpenAI:", error);
-        res.status(500).json({
-          message: "Error generating response from OpenAI",
-          error: error.message,
-        });
+        console.error("Error:", error);
+        res.status(500).send("An error occurred");  // Send an error response
     }
 };
 
