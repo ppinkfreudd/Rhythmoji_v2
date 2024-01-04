@@ -69,16 +69,22 @@ app.get('/callback', (req, res) => {
 });
 
 
-app.get('/display', async (req, res) => {
-    // Simulate a request body with genre data
-    req.body.genres = [
-        { genre: "rap", count: 5 },
-        { genre: "pop", count: 3 },
-        { genre: "jazz", count: 2 }
-    ];
-  
-    // Then call the middleware manually (not typical usage, just for simulation)
-    await generateCreativePrompt(req, res);
+app.post('/display', async (req, res) => {
+    try {
+        const genres = req.body.genres; // Expecting genres to be passed in the request body
+
+        // Validate that genres are provided and in the expected format
+        if (!genres || !Array.isArray(genres)) {
+            return res.status(400).send("Genres must be provided as an array.");
+        }
+
+        // Assuming generateCreativePrompt now properly uses req and res
+        await generateCreativePrompt(req, res); // Pass the entire req and res objects
+        // The generateCreativePrompt function will handle sending the response.
+    } catch (error) {
+        console.error("Error in /display route:", error);
+        res.status(500).send("An error occurred while generating the creative description");
+    }
 });
 
 // Helper function to get top items by count

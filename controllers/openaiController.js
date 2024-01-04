@@ -20,7 +20,7 @@ const generateCreativePrompt = async (req, res) => {
 
     try {
         // Constructing a prompt that asks GPT-3 to generate creative descriptions based on genres
-        let prompt = `Create a character description based on the following music genres: ${genres.join(", ")}. Using latest trends on the internet, match the genre data to the following categories, maintaining a healthy balance of artist-specific (i.e. a Nirvana band tee for Nirvana listeners) and genre-specific styles (e.g. Converse shoes for indie listeners):
+        let prompt = `Using ${genres.join(", ")} and information from latest internet fashion trends, fill out the following template:
 
         Head: the head must be that of a random animal
         Top: can be any type of shirt, jacket, or sweater
@@ -28,7 +28,16 @@ const generateCreativePrompt = async (req, res) => {
         Shoes: can be any type of shoe
         Socks: can be any type of sock
 
-        Ensure that the clothing and style reflect the vibrant and diverse nature of the genres.`;
+        Ensure that the clothing and style reflect the vibrant and diverse nature of the genres.
+        
+        Example: 
+        Head: lion (this can be a random animal)
+        Top: black metallica band tee (because they listen to metallica the most)
+        Bottom: black leather pants (they love rock)
+        Shoes: white converse
+        Socks: white socks
+        
+        Remember to be specific but simple like above. You can mention specific artists, but not more than 1`;
 
         const response = await openai.chat.completions.create({
             model: 'gpt-4',
@@ -40,9 +49,16 @@ const generateCreativePrompt = async (req, res) => {
             ],
         });
 
-        // Log the GPT's output to the console
-        console.log("GPT-4 Output:", response.choices[0].text);
-        res.status(200).send(creativeDescription);  // Send back the response
+        const creativeDescription = response.choices?.[0]?.message?.content;  // Safely access the response data
+
+        if (!creativeDescription) {
+            // Handle the situation where the response doesn't have the expected structure
+            console.error("No creative description received from GPT-4");
+            return res.status(500).send("Failed to generate creative description");
+        }
+
+        console.log("GPT-4 Output:", creativeDescription);
+        res.status(200).send(creativeDescription);  // Send back the creative description
     } catch (error) {
         console.error("Error:", error);
         res.status(500).send("An error occurred");  // Send an error response
