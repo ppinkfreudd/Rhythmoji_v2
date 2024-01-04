@@ -40,7 +40,7 @@ const generateCreativePrompt = async (req, res) => {
         Remember to be specific but simple like above. You can mention specific artists, but not more than 1`;
 
         const response = await openai.chat.completions.create({
-            model: 'gpt-4',
+            model: 'text-davinci-003',
             messages: [
                 {
                 role: 'user',

@@ -4,9 +4,19 @@ const express = require('express');
 const SpotifyWebApi = require('spotify-web-api-node');
 const cors = require('cors');
 const { generateCreativePrompt } = require('./controllers/openaiController');  // Import the function
+const session = require('express-session');
+const { OpenAI } = require('openai');
 
 // Configure the Express application
 const app = express();
+
+
+app.use(session({
+  secret: 'your secret key',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // Set to true if using HTTPS
+}));
 
 // Middleware to extract json data from POST requests
 app.use(express.json());
@@ -23,7 +33,7 @@ const spotifyApi = new SpotifyWebApi({
 });
 
 
-app.get('/display', generateCreativePrompt);
+//app.get('/display', generateCreativePrompt);
 
 // Routes
 app.get('/login', (req, res) => {
@@ -56,7 +66,12 @@ app.get('/callback', (req, res) => {
       let topGenres = getTopItems(genres, 10); // Implement this function based on your needs
 
       // Send the top genres as response
-      res.send(topGenres);
+      // ... code to get topGenres
+      // ... code to get topGenres
+      req.session.topGenres = topGenres;
+      res.redirect('/display');
+      //res.redirect('/display?' + new URLSearchParams({ genres: JSON.stringify(topGenres) }));
+      
     }).catch(error => {
       console.error('Error getting top artists:', error);
       res.send(`Error getting top artists: ${error}`);
@@ -69,15 +84,20 @@ app.get('/callback', (req, res) => {
 });
 
 
-app.post('/display', async (req, res) => {
+app.get('/display', async (req, res) => {
+    console.log("Display route accessed");
+    const genres = req.session.topGenres;
     try {
-        const genres = req.body.genres; // Expecting genres to be passed in the request body
+        console.log("test 1");
 
+         
         // Validate that genres are provided and in the expected format
         if (!genres || !Array.isArray(genres)) {
             return res.status(400).send("Genres must be provided as an array.");
         }
 
+        req.body.genres = genres;
+        console.log(req.body.genres)
         // Assuming generateCreativePrompt now properly uses req and res
         await generateCreativePrompt(req, res); // Pass the entire req and res objects
         // The generateCreativePrompt function will handle sending the response.
