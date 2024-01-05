@@ -1,5 +1,7 @@
 const { OpenAI } = require('openai');
+const { exec } = require('child_process');
 require('dotenv').config();
+
 
 const openai = new OpenAI({
   apiKey: process.env.OPEN_AI_KEY,
@@ -73,7 +75,23 @@ const generateRhythmoji = async (creativeDescription) => {
         // Capturing the URL from the response
         const imageUrl = imageResponse.data[0].url; // Ensure correct access based on actual response structure
         
-        return imageUrl; // This will return the URL to wherever the function was called
+        const pythonCommand = `python3 remove_bg.py "${imageUrl}"`;
+
+        const newImageUrl = await new Promise((resolve, reject) => {
+            exec(pythonCommand, (error, stdout, stderr) => {
+                if (error) {
+                    console.error(`Error: ${error.message}`);
+                    reject(error);
+                }
+                if (stderr) {
+                    console.error(`Stderr: ${stderr}`);
+                    reject(stderr);
+                }
+                resolve(stdout.trim());
+            });
+        });
+
+        return newImageUrl; // This will return the URL to wherever the function was called
 
     } catch (error) {
         console.error("Error generating image:", error);
