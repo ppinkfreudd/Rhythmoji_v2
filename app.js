@@ -66,6 +66,7 @@ app.get('/callback', (req, res) => {
         let genres = topArtists.flatMap(artist => artist.genres);
         let topGenres = getTopItems(genres, 10);
 
+        req.session.topArtists = topArtists;
         req.session.topGenres = topGenres;
         res.redirect('/display');
         
@@ -84,13 +85,15 @@ app.get('/callback', (req, res) => {
 app.get('/display', async (req, res) => {
     try {
         const genres = req.session.topGenres;
+        const artists = req.session.topArtists;
 
         if (!genres || !Array.isArray(genres)) {
             return res.status(400).send("Genres must be provided as an array.");
         }
 
         // Ensure the structure matches what generateCreativePrompt expects
-        req.body = { genres: genres };
+        req.body = { genres: genres, artists: artists };
+
 
         const creativeDescription = await generateCreativePrompt(req);
         const imageUrl = await generateRhythmoji(creativeDescription);

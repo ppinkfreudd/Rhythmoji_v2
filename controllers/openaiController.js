@@ -10,6 +10,8 @@ const openai = new OpenAI({
 const generateCreativePrompt = async (req) => { // Removed res, as we are returning the value instead of sending response
     console.log("Received body:", req.body);
     const genreObjects = req.body.genres;
+    const artistObjects = req.body.artists;
+    console.log(genreObjects);
 
     if (!Array.isArray(genreObjects)) {
         console.error("Genres is undefined or not an array");
@@ -17,23 +19,27 @@ const generateCreativePrompt = async (req) => { // Removed res, as we are return
     }
 
     const genres = genreObjects.map(g => g.genre);
-    let prompt = `Optimize your answer for feeding into dall-e-3. Keep your response under 75 words. Using ${genres.join(", ")} and information from latest internet fashion trends (search for these) and your knowledge of good Dall-E prompts, fill out the following template:
+    const artists = artistObjects.map(a => a.name);
+    //console.log(genres);
+    let prompt = `Optimize your answer for feeding into dall-e-3. Keep your response under 75 words. Using ${genres.join(", ")} and ${artists.join(", ")} and information from latest internet fashion trends (search for these) and your knowledge of good Dall-E prompts, fill out the following template. If you are to mention an artist, use a "-like" (e.g. Drake-like hoodie):
 
     Head: the head must be that of an animal
-    Top: can be any type of shirt, jacket, or sweater
-    Bottom: can be any type of shorts, jeans, leggings, skirt, etc.
-    Shoes: can be any type of shoe
-    Socks: can be any type of sock
+    Top: can be any type of shirt, jacket, or sweater, inspired by artist or genre
+    Bottom: can be any type of shorts, jeans, leggings, skirt, etc., inspired only by genre
+    Shoes: can be any type of shoe, inspired by artist
+    Accessory: sunglasses, chain, hat, etc. 
 
-    Ensure that the clothing and style reflect the vibrant and diverse nature of the genres.
+    Ensure that the clothing and style reflect the vibrant and diverse nature of the genres,
+    and that each item is a clear reflection of a genre, and their styles don't overlap.
     
     Example: 
     Head: lion (try to gather from their taste what this might be)
     Top: black metallica band tee (because they listen to metallica the most)
     Bottom: black leather pants (they love rock)
     Shoes: white converse
-    Socks: white socks
+    Accessory: Anita Max Wynn hat (because they listen to Drake)
     
+    If you are going to mention a specific artist inspired design, describe the design instead of writing the artist's name and "-like" (for example, "Yeezy sweatshirt with GAP on it" instead of "Kanye-like hoodie")
     Remember to be specific but simple like above. You can mention specific artists, but not more than 2. Mention artists earlier in your answer for each category.`;
 
     try {
@@ -67,7 +73,7 @@ const generateRhythmoji = async (creativeDescription) => {
     try {
         const imageResponse = await openai.images.generate({
             model: 'dall-e-3',
-            prompt: `Your role is to design a single lego character standing in a straight-on orientation using "${creativeDescription}". Focus on the artists and brands mentioned, make them evident. White background. Ensure good design.`, 
+            prompt: `Your role is to design a single lego character standing direclty facing us using "${creativeDescription}". Focus on the artists and brands mentioned, make them evident, and make sure each part's styles don't overlap. White background. Ensure good design.`, 
             n: 1,
             size: '1024x1024',
         });
