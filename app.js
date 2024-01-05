@@ -96,13 +96,15 @@ app.get('/display', async (req, res) => {
         const creativeDescription = await generateCreativePrompt(req); // Now catching the return value
 
         const imageUrl = await generateRhythmoji(creativeDescription); // Using the creativeDescription
-        res.send(`<html><body><h1>Generated Image</h1><iframe src="${imageUrl}" frameborder="0" style="width:100%; height:100%" allowfullscreen></iframe></body></html>`);
-
+        
+        // Redirect to the new HTML file with the image URL as a query parameter
+        res.redirect(`/displayImage.html?img=${encodeURIComponent(imageUrl)}`);
     } catch (error) {
         console.error("Error in /display route:", error);
         res.status(500).send("An error occurred while processing your request.");
     }
 });
+
 
 
 // Helper function to get top items by count

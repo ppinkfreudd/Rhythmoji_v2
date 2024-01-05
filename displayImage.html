@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rhythmoji - Your Music, Your Emoji</title>
+    <style>
+        /* Basic reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Styling the body */
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif; /* Updated font */
+            background-color: #fff; /* White background */
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        /* Styling the container */
+        .container {
+            text-align: center;
+            max-width: 800px; /* Constrain the width */
+            margin: auto;
+            padding: 20px;
+            background: #f9f9f9; /* Light background for the content */
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Subtle shadow */
+        }
+
+        /* Styling the header */
+        .header {
+            background: #1DB954; /* Spotify green */
+            color: #000000;
+            padding: 1rem 0;
+            border-radius: 8px 8px 0 0; /* Rounded corners on top */
+        }
+
+        /* Styling the headline */
+        .headline {
+            font-size: 2.5rem; /* Larger font size */
+            margin-bottom: 0.5rem;
+        }
+
+        /* Styling the description */
+        .description {
+            font-size: 1.25rem; /* Larger font size */
+            margin-bottom: 2rem; /* More spacing */
+            color: #000000;
+            opacity: 0.9;
+        }
+
+        /* Styling the image */
+        .rhythmoji-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px; /* Consistent with container */
+            margin-top: -50px; /* Overlap the image over the header */
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2); /* More pronounced shadow */
+        }
+
+        /* Styling navigation links */
+        .nav {
+            text-align: center;
+            padding: 1rem;
+            background: #1DB954; /* Spotify green */
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+            border-radius: 0 0 8px 8px; /* Rounded corners on bottom */
+        }
+
+        .nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .nav a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h1 class="headline">Your Creative Rhythmoji</h1>
+            <p class="description">Your music, lego-fied</p>
+        </div>
+    </div>
+    <div class="container">
+        <img class="rhythmoji-image" id="dynamicImage" src="" alt="Generated Rhythmoji">
+    </div>
+    <div class="nav">
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/privacy">Privacy</a>
+        <a href="https://ko-fi.com">Buy Us a Coffee</a>
+    </div>
+    <script>
+        window.onload = function() {
+            const params = new URLSearchParams(window.location.search);
+            const imageUrl = params.get('img');
+            document.getElementById('dynamicImage').src = imageUrl;
+        }
+    </script>
+</body>
+</html>
