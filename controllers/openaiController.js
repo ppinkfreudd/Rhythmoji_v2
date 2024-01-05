@@ -17,9 +17,9 @@ const generateCreativePrompt = async (req) => { // Removed res, as we are return
     }
 
     const genres = genreObjects.map(g => g.genre);
-    let prompt = `Using ${genres.join(", ")} and information from latest internet fashion trends (search for these), fill out the following template:
+    let prompt = `Optimize your answer for feeding into dall-e-3. Keep your response under 75 words. Using ${genres.join(", ")} and information from latest internet fashion trends (search for these) and your knowledge of good Dall-E prompts, fill out the following template:
 
-    Head: the head must be that of a random animal
+    Head: the head must be that of an animal
     Top: can be any type of shirt, jacket, or sweater
     Bottom: can be any type of shorts, jeans, leggings, skirt, etc.
     Shoes: can be any type of shoe
@@ -28,13 +28,13 @@ const generateCreativePrompt = async (req) => { // Removed res, as we are return
     Ensure that the clothing and style reflect the vibrant and diverse nature of the genres.
     
     Example: 
-    Head: lion (this can be a random animal)
+    Head: lion (try to gather from their taste what this might be)
     Top: black metallica band tee (because they listen to metallica the most)
     Bottom: black leather pants (they love rock)
     Shoes: white converse
     Socks: white socks
     
-    Remember to be specific but simple like above. You can mention specific artists, but not more than 2`;
+    Remember to be specific but simple like above. You can mention specific artists, but not more than 2. Mention artists earlier in your answer for each category.`;
 
     try {
         const response = await openai.chat.completions.create({
@@ -67,7 +67,7 @@ const generateRhythmoji = async (creativeDescription) => {
     try {
         const imageResponse = await openai.images.generate({
             model: 'dall-e-3',
-            prompt: `Create a lego character in front-facing standing position using "${creativeDescription}". White background. Try to avoid duplicates in your image (just one character). Ensure good design. No text on designs.`, 
+            prompt: `Your role is to design a single lego character standing in a straight-on orientation using "${creativeDescription}". Focus on the artists and brands mentioned, make them evident. White background. Ensure good design.`, 
             n: 1,
             size: '1024x1024',
         });
