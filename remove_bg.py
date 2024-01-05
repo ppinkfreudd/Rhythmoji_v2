@@ -8,6 +8,7 @@ def remove_background(image_url):
     response = requests.get(image_url)
     image = Image.open(BytesIO(response.content))
     image = image.convert("RGBA")
+    image.save('unfiltered_image.png')
 
     # Process the image to remove the background...
     new_image = remove(image)
