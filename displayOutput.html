@@ -3,14 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Creative Description</title>
-    <!-- Add any additional styles or scripts here -->
+    <title>Display Output</title>
+    <link rel="stylesheet" href="style.css"> <!-- Ensure this path is correct -->
 </head>
 <body>
-    <h1>Your Creative Character Description</h1>
-    <div id="gptOutput">
-        <!-- This is where the GPT output will go -->
-        <p>${gptOutput}</p>
+    <div class="container">
+        <h1>Your Creative Rhythmoji</h1>
+        <div id="image-container">
+            <img src="" id="rhythmoji-image" alt="Creative Rhythmoji" />
+        </div>
+        <!-- More content here if needed -->
     </div>
+    <script src="displayOutput.js"></script> <!-- Script to update image src -->
 </body>
 </html>
