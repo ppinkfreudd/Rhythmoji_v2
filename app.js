@@ -9,7 +9,6 @@ const { generateCreativePrompt, generateRhythmoji } = require('./controllers/ope
 // Configure the Express application
 const app = express();
 
-
 app.use(session({
   secret: 'your secret key',
   resave: false,
@@ -23,7 +22,7 @@ app.use(express.static(__dirname));
 
 
 // Create route for handling POST requests to '/openai/response'
-app.post('/openai/response', generateCreativePrompt);  // Fixed the handler function here
+app.post('/openai/response', generateCreativePrompt);
 
 // Your application's client credentials
 const spotifyApi = new SpotifyWebApi({
@@ -37,9 +36,6 @@ app.get('/', (req, res) => {
     res.sendFile('index.html', { root: __dirname });
   });
   
-  
-//app.get('/display', generateCreativePrompt);
-
 // Routes
 app.get('/login', (req, res) => {
   var scopes = ['user-top-read'],
@@ -66,16 +62,17 @@ app.get('/callback', (req, res) => {
 
     // Fetch the top genres
     spotifyApi.getMyTopArtists().then(data => {
-      let topArtists = data.body.items;
-      let genres = topArtists.flatMap(artist => artist.genres);
-      let topGenres = getTopItems(genres, 10); // Implement this function based on your needs
+        let topArtists = data.body.items;
+        let genres = topArtists.flatMap(artist => artist.genres);
+        let topGenres = getTopItems(genres, 10);
 
-      req.session.topGenres = topGenres;
-      res.redirect('/display');
-      
+        //console.log("Top Genres: ", topGenres); // Debugging line
+        req.session.topGenres = topGenres;
+        res.redirect('/display');
+        
     }).catch(error => {
-      console.error('Error getting top artists:', error);
-      res.send(`Error getting top artists: ${error}`);
+        console.error('Error getting top artists:', error);
+        res.send(`Error getting top artists: ${error}`);
     });
 
   }).catch(error => {
@@ -88,22 +85,27 @@ app.get('/callback', (req, res) => {
 app.get('/display', async (req, res) => {
     try {
         const genres = req.session.topGenres;
+        //console.log("Genres from session: ", genres); // This should show an array of objects
+
         if (!genres || !Array.isArray(genres)) {
             return res.status(400).send("Genres must be provided as an array.");
         }
 
-        req.body.genres = genres; // Assuming this is the desired format
-        const creativeDescription = await generateCreativePrompt(req); // Now catching the return value
+        // Ensure the structure matches what generateCreativePrompt expects
+        req.body = { genres: genres };
 
-        const imageUrl = await generateRhythmoji(creativeDescription); // Using the creativeDescription
+        const creativeDescription = await generateCreativePrompt(req);
+        const imageUrl = await generateRhythmoji(creativeDescription);
         
-        // Redirect to the new HTML file with the image URL as a query parameter
-        res.redirect(`/displayImage.html?img=${encodeURIComponent(imageUrl)}`);
+        let genreParams = genres.map(genre => `genres[]=${encodeURIComponent(genre.genre)}`).join('&');
+        res.redirect(`/displayImage.html?img=${encodeURIComponent(imageUrl)}&${genreParams}`);
     } catch (error) {
         console.error("Error in /display route:", error);
         res.status(500).send("An error occurred while processing your request.");
     }
 });
+
+
 
 
 
@@ -125,6 +127,6 @@ function generateRandomString(length) {
 
 // Start the Express server
 const port = process.env.PORT || 3000;
-app.listen(port, () => {  // Removed the duplicate app.listen
+app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);
 });

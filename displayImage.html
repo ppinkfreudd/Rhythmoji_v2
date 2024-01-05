@@ -5,114 +5,261 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rhythmoji - Your Music, Your Emoji</title>
     <style>
-        /* Basic reset */
+        /* Basic reset and box-sizing */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* Styling the body */
         body {
-            font-family: 'Helvetica Neue', Arial, sans-serif; /* Updated font */
-            background-color: #fff; /* White background */
-            color: #333;
-            line-height: 1.6;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            flex-direction: column;
-            padding: 20px;
-        }
+    background-color: #ffffff; /* Very dark background for neon effect */
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    flex-direction: column;
+}
 
-        /* Styling the container */
-        .container {
-            text-align: center;
-            max-width: 800px; /* Constrain the width */
+
+.header {
+    background-color: #0f0; /* Bright neon green */
+    box-shadow: 0 0 10px #0f0, 0 0 20px #0f0, 0 0 40px #0f0; /* Neon glow */
+    padding: 1rem 0; /* Reduced padding */
+    border-radius: 20px 10px 0 0; 
+    position: relative; /* For absolute positioning of nav */
+}
+
+        .header .container {
+            max-width: 1200px;
             margin: auto;
-            padding: 20px;
-            background: #f9f9f9; /* Light background for the content */
-            border-radius: 8px; /* Rounded corners */
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Subtle shadow */
-        }
-
-        /* Styling the header */
-        .header {
-            background: #1DB954; /* Spotify green */
-            color: #000000;
-            padding: 1rem 0;
-            border-radius: 8px 8px 0 0; /* Rounded corners on top */
+            padding: 0 20px;
         }
 
         /* Styling the headline */
         .headline {
-            font-size: 2.5rem; /* Larger font size */
-            margin-bottom: 0.5rem;
+            font-size: 3rem;
+            color: #000000;
         }
 
         /* Styling the description */
         .description {
-            font-size: 1.25rem; /* Larger font size */
-            margin-bottom: 2rem; /* More spacing */
+            font-size: 1.5rem;
             color: #000000;
-            opacity: 0.9;
+            margin-top: 0.5rem;
         }
 
-        /* Styling the image */
+        /* Styling the main container */
+        .container {
+            max-width: 800px; /* Restrict container width */
+            margin-top: -2rem;
+            text-align: center; /* Center text */
+            padding: 2rem;
+        }
+
+        /* Image styles */
         .rhythmoji-image {
-            max-width: 100%;
+            width: 50%; /* Make image smaller */
             height: auto;
-            border-radius: 8px; /* Consistent with container */
-            margin-top: -50px; /* Overlap the image over the header */
-            box-shadow: 0 8px 24px rgba(0,0,0,0.2); /* More pronounced shadow */
+            border-radius: 10px;
+            margin-top: 2rem;
+       
         }
 
-        /* Styling navigation links */
-        .nav {
-            text-align: center;
-            padding: 1rem;
-            background: #1DB954; /* Spotify green */
-            color: #fff;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.85rem;
-            border-radius: 0 0 8px 8px; /* Rounded corners on bottom */
+        /* Navigation styles */
+/* Navigation menu styles */
+.nav {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: none; /* Clear background */
+    box-shadow: none; /* Clear box-shadow */
+    padding: 1rem; /* Padding to position the nav */
+}
+
+.nav a {
+    color: #1DB954;
+    text-decoration: none;
+    margin: 0 10px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.nav a:hover {
+    color: #ddd;
+}
+
+        /* Genre list styles */
+        #genreList {
+            list-style: none;
+            padding-left: 0;
         }
 
-        .nav a {
-            color: #fff;
+        
+        #genreList li {
+            background: #34495e; /* Slightly lighter than body for contrast */
+            color: #fff; /* White text for readability */
+            margin-bottom: 8px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+    
+        .modal-content {
+        background-color: #34495e;
+        margin: auto; /* Center in the middle of the screen */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%; /* Could be more or less, depending on screen size */
+        border-radius: 5px;
+        position: fixed; /* Stay in place */
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); /* Adjust for exact centering */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Adds a shadow */
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
             text-decoration: none;
-            margin: 0 10px;
+            cursor: pointer;
         }
 
-        .nav a:hover {
-            text-decoration: underline;
+
+
+
+        .modal-button {
+            padding: 10px 20px;
+            background-color: #0f0; /* Bright neon green */
+    box-shadow: 0 0 5px #0f0, 0 0 15px #0f0, 0 0 30px #0f0; /* Neon glow */
+            color: white;
+            border: none;
+            text-transform: uppercase;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .headline {
+                font-size: 2rem;
+            }
+
+            .description {
+                font-size: 1rem;
+            }
+
+            .rhythmoji-image {
+                width: 70%; /* Adjust image size on smaller screens */
+            }
         }
     </style>
 </head>
 <body>
     <div class="header">
         <div class="container">
-            <h1 class="headline">Your Creative Rhythmoji</h1>
+            <h1 class="headline">Rhythmoji</h1>
             <p class="description">Your music, lego-fied</p>
         </div>
     </div>
     <div class="container">
         <img class="rhythmoji-image" id="dynamicImage" src="" alt="Generated Rhythmoji">
+
     </div>
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Top Genres:</h2>
+                <ul id="genreList"></ul>
+            </div>
+    
+        </div>
+    
     <div class="nav">
         <a href="/">Home</a>
         <a href="/about">About</a>
         <a href="/privacy">Privacy</a>
         <a href="https://ko-fi.com">Buy Us a Coffee</a>
     </div>
+
+    <button id="myBtn" class="modal-button">See Top Genres</button>
+
+
     <script>
         window.onload = function() {
+            // Extract image and genres from URL
             const params = new URLSearchParams(window.location.search);
             const imageUrl = params.get('img');
+            const genres = params.getAll('genres[]');
+            
+            // Set the source for the image
             document.getElementById('dynamicImage').src = imageUrl;
+
+            // Display the list of genres
+            const genreListElement = document.getElementById('genreList');
+            genres.forEach(genre => {
+                let listItem = document.createElement('li');
+                listItem.textContent = genre;
+                genreListElement.appendChild(listItem);
+            });
         }
     </script>
+    <script>
+            // Get the modal element
+            var modal = document.getElementById('myModal');
+    
+            // Get the button that opens the modal
+            var btn = document.getElementById('myBtn');
+    
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName('close')[0];
+    
+            // When the user clicks the button, open the modal 
+            btn.onclick = function() {
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden'; // Disable scrolling of the background
+            }
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto'; // Enable scrolling again
+            }
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = 'auto'; // Enable scrolling again
+                }
+            }   
+     </script>
 </body>
 </html>

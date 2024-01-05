@@ -17,6 +17,7 @@
     "express-session": "^1.17.3",
     "openai": "^4.24.1",
     "punycode": "^2.3.1",
+    "rembg": "^1.0.6",
     "request": "^2.88.2",
     "spotify-web-api-node": "^5.0.2"
   }

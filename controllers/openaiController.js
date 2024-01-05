@@ -17,7 +17,7 @@ const generateCreativePrompt = async (req) => { // Removed res, as we are return
     }
 
     const genres = genreObjects.map(g => g.genre);
-    let prompt = `Using ${genres.join(", ")} and information from latest internet fashion trends, fill out the following template:
+    let prompt = `Using ${genres.join(", ")} and information from latest internet fashion trends (search for these), fill out the following template:
 
     Head: the head must be that of a random animal
     Top: can be any type of shirt, jacket, or sweater
@@ -34,7 +34,7 @@ const generateCreativePrompt = async (req) => { // Removed res, as we are return
     Shoes: white converse
     Socks: white socks
     
-    Remember to be specific but simple like above. You can mention specific artists, but not more than 1`;
+    Remember to be specific but simple like above. You can mention specific artists, but not more than 2`;
 
     try {
         const response = await openai.chat.completions.create({
@@ -67,7 +67,7 @@ const generateRhythmoji = async (creativeDescription) => {
     try {
         const imageResponse = await openai.images.generate({
             model: 'dall-e-3',
-            prompt: `Show the front view of a single lego character using "${creativeDescription}". Include only the frontal orientation figure in the image. White background.`, 
+            prompt: `Create a lego character in front-facing standing position using "${creativeDescription}". White background. Try to avoid duplicates in your image (just one character). Ensure good design. No text on designs.`, 
             n: 1,
             size: '1024x1024',
         });
