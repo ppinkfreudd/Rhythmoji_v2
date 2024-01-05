@@ -66,7 +66,6 @@ app.get('/callback', (req, res) => {
         let genres = topArtists.flatMap(artist => artist.genres);
         let topGenres = getTopItems(genres, 10);
 
-        //console.log("Top Genres: ", topGenres); // Debugging line
         req.session.topGenres = topGenres;
         res.redirect('/display');
         
@@ -85,7 +84,6 @@ app.get('/callback', (req, res) => {
 app.get('/display', async (req, res) => {
     try {
         const genres = req.session.topGenres;
-        //console.log("Genres from session: ", genres); // This should show an array of objects
 
         if (!genres || !Array.isArray(genres)) {
             return res.status(400).send("Genres must be provided as an array.");
@@ -104,9 +102,6 @@ app.get('/display', async (req, res) => {
         res.status(500).send("An error occurred while processing your request.");
     }
 });
-
-
-
 
 
 // Helper function to get top items by count
