@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Genres</title>
+    <!-- Add links to any CSS files or frameworks here -->
+</head>
+<body>
+    <h1>Your Top Genres</h1>
+    <!-- Display the top genres in an ordered list -->
+    <ol>
+        {% for genre, count in top_genres %}
+            <li>{{ genre }} ({{ count }} times)</li>
+        {% endfor %}
+    </ol>
+</body>
+</html>

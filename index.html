@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rhythmoji</title>
+    <link rel="stylesheet" href="style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="javascript:void(0);" onclick="scrollToAbout()">About</a></li>
+                <li><a href="/privacy">Privacy</a></li>
+                <li><a href="/donate">Buy Us a Coffee</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="header-content">
+            <h1>Rhythmoji</h1>
+            <p>Hey there! Want to see your Rhythmoji? Log in below!</p>
+            <a href="/login" class="spotify-login-btn">Login with Spotify</a>
+        </div>
+        <div class="image-placeholder">
+            <img src="updatedImage.jpg" alt="Placeholder Image">
+        </div>
+    </div>
+    <div id="about">
+        <h2>About Us</h2>
+        <p>Your description here.</p>
+        <p>Your co-founder's description here.</p>
+    </div>
+    <script>
+        function scrollToAbout() {
+            const aboutSection = document.getElementById("about");
+            aboutSection.scrollIntoView({ behavior: "smooth" });
+        }
+    </script>
+</body>
+</html>
