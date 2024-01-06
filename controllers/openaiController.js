@@ -75,7 +75,7 @@ const generateRhythmoji = async (creativeDescription) => {
     try {
         const imageResponse = await openai.images.generate({
             model: 'dall-e-3',
-            prompt: `Your role is to design a single realistic lego character standing directly facing us using "${creativeDescription}". Focus on the artists and brands mentioned, make them evident, and make sure part only includes the style described for that part. Transparent background. Make sure it has yello hands. Make sure the lego is wearing the shoes and accessories. `, 
+            prompt: `Your role is to design a single realistic lego character with realistic shoes standing directly facing us using "${creativeDescription}". Focus on the artists and brands mentioned, make them evident, and make sure part only includes the style described for that part. Transparent background. Make sure it has yello hands. Make sure the lego is wearing the shoes and accessories. `, 
             n: 1,
             size: '1024x1024',
         });
