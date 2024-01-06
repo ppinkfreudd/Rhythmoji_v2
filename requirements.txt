@@ -1,4 +1,3 @@
 Pillow
 rembg
 requests
-Python
