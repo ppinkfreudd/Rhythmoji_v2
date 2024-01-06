@@ -1,4 +1,3 @@
 Pillow
-PIL
 rembg
 requests
