@@ -1,4 +1,3 @@
-Pillow==8.1.1
-rembg==2.0.40
-requests==2.25.1
-Python >=3.8
+Pillow
+rembg
+requests
