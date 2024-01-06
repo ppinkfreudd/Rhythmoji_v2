@@ -3,7 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const SpotifyWebApi = require('spotify-web-api-node');
 const cors = require('cors');
-const session = require('express-session');
+const session = require('cookie-session');
 const { OpenAI } = require('openai');
 const { generateCreativePrompt, generateRhythmoji } = require('./controllers/openaiController');
 const port = process.env.PORT || 3000;
