@@ -6,6 +6,7 @@ const cors = require('cors');
 const session = require('express-session');
 const { OpenAI } = require('openai');
 const { generateCreativePrompt, generateRhythmoji } = require('./controllers/openaiController');
+const port = process.env.PORT || 3000;
 // Configure the Express application
 const app = express();
 
@@ -124,7 +125,6 @@ function generateRandomString(length) {
 }
 
 // Start the Express server
-const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log(`App listening at http://localhost:${port}`);
-});
+    console.log(`App listening at http://localhost:${port}`);
+  });

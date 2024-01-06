@@ -83,7 +83,7 @@ const generateRhythmoji = async (creativeDescription) => {
         // Capturing the URL from the response
         const imageUrl = imageResponse.data[0].url; // Ensure correct access based on actual response structure
         
-        const pythonCommand = `python3 remove_bg.py "${imageUrl}"`;
+        const pythonCommand = `python remove_bg.py "${imageUrl}"`;
 
         const newImageUrl = await new Promise((resolve, reject) => {
             exec(pythonCommand, (error, stdout, stderr) => {
