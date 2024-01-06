@@ -1,5 +1,4 @@
-import PIL
-from PIL import image
+from PIL import Image
 from rembg import remove
 import requests
 from io import BytesIO
