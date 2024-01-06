@@ -19,9 +19,10 @@ const generateCreativePrompt = async (req) => { // Removed res, as we are return
     }
 
     const genres = genreObjects.map(g => g.genre);
-    const artists = artistObjects.slice(0, 5).map(a => a.name);
+    const artists = artistObjects.slice(0, 1).map(a => a.name);
+
     console.log(artists);
-    let prompt = `Optimize your answer for feeding into dall-e-3. Keep your response under 75 words. Using ${genres.join(", ")} and ${artists.join(", ")}and information from latest internet fashion trends (search for these) and your knowledge of good Dall-E prompts, fill out the following template. If you are to mention an artist, use a "-like" (e.g. Drake-like hoodie):
+    let prompt = `Optimize your answer for feeding into dall-e-3. Keep your response under 75 words. Using ${genres.join(", ")} and ${artists.join(", ")} and information from latest internet fashion trends (search for these) and your knowledge of good Dall-E prompts, fill out the following template. If you are to mention an artist, use a "-like" (e.g. Drake-like hoodie):
 
     Head: the head must be that of an animal (related to their genres)
     Upper body: can be any type of shirt, jacket, or sweater or graphic tee (inspired by artist or genre)
