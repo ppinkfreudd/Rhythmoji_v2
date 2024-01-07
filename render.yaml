@@ -1,12 +1,24 @@
 services:
-  - name: node-app
+  # Node App Configuration
+  - type: web
+    name: node-app
+    env: docker
     buildCommand: docker build -t node-app ./rhythmoji-app
     startCommand: docker-compose -f docker-compose.yml up node-app
-    env: .env
+    envVars:
+      - fromPath: .env
     ports:
-      - 3000
-  - name: flask-app
+      - port: 3000
+        http: true
+    # Custom domains, SSL, and other configurations can be added here if needed.
+
+  # Flask App Configuration
+  - type: web
+    name: flask-app
+    env: docker
     buildCommand: docker build -t flask-app ./background-removal-app
     startCommand: docker-compose -f docker-compose.yml up flask-app
+    internal: true  # Makes the service private
     ports:
-      - 5001
+      - port: 5001
+    # Since this is a private service, no need to configure http or custom domains.
