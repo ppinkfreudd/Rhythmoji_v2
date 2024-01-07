@@ -16,13 +16,5 @@ COPY . .
 # Make port available to the world outside this container
 EXPOSE 3000
 
-# Define environment variable
-ENV SPOTIPY_CLIENT_ID abcdc6ec5e66488ab295abb3a4401917
-ENV SPOTIPY_CLIENT_SECRET 9ed30e1571364288b2a8a1b690f2ea91
-ENV SPOTIPY_REDIRECT_URI http://localhost:3000/callback
-ENV OPEN_AI_KEY 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
-
-
-
 # Run the app when the container launches
 CMD ["node", "app.js"]
