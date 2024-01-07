@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="container">
-        <img class="rhythmoji-image" id="dynamicImage" src="" alt="Generated Rhythmoji">
+        <img class="rhythmoji-image" id="dynamicImage" src="rhythmoji_no_bg.png" alt="Generated Rhythmoji">
         <br>
         <button onclick="downloadImage()" class="modal-button">Download Rhythmoji</button>
     </div>
@@ -48,7 +48,7 @@
             const genres = params.getAll('genres[]');
             
             // Set the source for the image
-            document.getElementById('dynamicImage').src = imageUrl;
+            //document.getElementById('dynamicImage').src = imageUrl;
 
             // Display the list of genres
             const genreListElement = document.getElementById('genreList');

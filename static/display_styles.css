@@ -59,7 +59,8 @@ body {
     height: auto;
     border-radius: 10px;
     margin-top: 2rem;
-    mix-blend-mode:color-dodge;
+    mix-blend-mode:multiply;
+    filter: contrast(1);
 }
 
 /* Navigation styles */

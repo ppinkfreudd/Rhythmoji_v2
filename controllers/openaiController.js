@@ -1,6 +1,9 @@
 const { OpenAI } = require('openai');
 const { exec } = require('child_process');
 require('dotenv').config();
+const { removeBackgroundFromImageUrl } = require('rembg');
+const fetch = require('node-fetch'); // To fetch image data
+const fs = require('fs'); // For file system operations
 
 
 const openai = new OpenAI({
@@ -71,6 +74,25 @@ const generateCreativePrompt = async (req) => { // Removed res, as we are return
     }
 };
 
+
+const removeBackground = async (imageUrl) => {
+    try {
+      const response = await fetch(imageUrl);
+      const buffer = await response.buffer();
+  
+      const output = await removeBackgroundFromImageUrl({ buffer });
+  
+      // Save the output file or further process as needed
+      fs.writeFileSync('no-bg.png', output); // This will save the image without background in the same directory as your script
+  
+      return 'rhythmoji_no_bg.png'; // Modify as per your need
+    } catch (error) {
+      console.error("Error removing background:", error);
+      throw error; // Or handle this in a way that fits your application
+    }
+  };
+
+
 const generateRhythmoji = async (creativeDescription) => {
     try {
         const imageResponse = await openai.images.generate({
@@ -82,10 +104,8 @@ const generateRhythmoji = async (creativeDescription) => {
 
         // Capturing the URL from the response
         const imageUrl = imageResponse.data[0].url; // Ensure correct access based on actual response structure
-        
+        const noBgImage = removeBackground(imageUrl);
         /*const pythonCommand = `python remove_bg.py "${imageUrl}"`;
-
-
 
         const newImageUrl = await new Promise((resolve, reject) => {
             exec(pythonCommand, (error, stdout, stderr) => {
@@ -101,7 +121,7 @@ const generateRhythmoji = async (creativeDescription) => {
             });
         });*/
 
-        return imageUrl; // This will return the URL to wherever the function was called
+        return noBgImage.url; // This will return the URL to wherever the function was called
 
     } catch (error) {
         console.error("Error generating image:", error);
