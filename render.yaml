@@ -1,0 +1,12 @@
+services:
+  - name: node-app
+    buildCommand: docker build -t node-app ./rhythmoji-app
+    startCommand: docker-compose -f docker-compose.yml up node-app
+    env: .env
+    ports:
+      - 3000
+  - name: flask-app
+    buildCommand: docker build -t flask-app ./background-removal-app
+    startCommand: docker-compose -f docker-compose.yml up flask-app
+    ports:
+      - 5001
