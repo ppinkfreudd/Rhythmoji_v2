@@ -84,23 +84,24 @@ const generateRhythmoji = async (creativeDescription) => {
         });
 
         const imageUrl = imageResponse.data[0].url;
-
-        // New code replacing pythonCommand
-        let runPy = new Promise(function(success, nosuccess) {
-            const pyprog = spawn('python', ['./remove_bg.py', imageUrl]);
-
-            pyprog.stdout.on('data', function(data) {
-                success(data.toString().trim());
-            });
-
-            pyprog.stderr.on('data', (data) => {
-                nosuccess(data.toString());
-            });
+        
+        //call to flask app to remove background
+        const removeBgResponse = await fetch('http://127.0.0.1:5000/remove-background', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ image_url: imageUrl })
         });
 
-        const newImageUrl = await runPy;
 
-        return newImageUrl; // This will return the URL to wherever the function was called
+        if (!removeBgResponse.ok) {
+            throw new Error(`Error from Flask service: ${removeBgResponse.statusText}`);
+        }
+
+        const buffer = await removeBgResponse.buffer();
+        fs.writeFileSync('rhythmoji_no_bg.png', buffer);
+
+
+        return imageUrl;
 
     } catch (error) {
         console.error("Error generating image:", error);
