@@ -83,7 +83,7 @@ const removeBackground = async (imageUrl) => {
       const output = await removeBackgroundFromImageUrl({ buffer });
   
       // Save the output file or further process as needed
-      fs.writeFileSync('no-bg.png', output); // This will save the image without background in the same directory as your script
+      fs.writeFileSync('rhythmoji_no_bg.png', output); // This will save the image without background in the same directory as your script
   
       return 'rhythmoji_no_bg.png'; // Modify as per your need
     } catch (error) {
