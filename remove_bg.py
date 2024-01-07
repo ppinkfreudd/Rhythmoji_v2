@@ -22,3 +22,4 @@ if __name__ == "__main__":
     input_url = sys.argv[1]
     result = remove_background(input_url)
     print(result)  # The Node.js app will capture this output
+    sys.stdout.flush()

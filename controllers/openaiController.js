@@ -1,12 +1,11 @@
 const { OpenAI } = require('openai');
-const { exec } = require('child_process');
+const { spawn } = require('child_process'); // Modified to use spawn from child_process
 require('dotenv').config();
 const fetch = require('node-fetch'); // To fetch image data
 const fs = require('fs'); // For file system operations
 
-
 const openai = new OpenAI({
-  apiKey: process.env.OPEN_AI_KEY,
+    apiKey: process.env.OPEN_AI_KEY,
 });
 
 const generateCreativePrompt = async (req) => { // Removed res, as we are returning the value instead of sending response
@@ -79,34 +78,32 @@ const generateRhythmoji = async (creativeDescription) => {
     try {
         const imageResponse = await openai.images.generate({
             model: 'dall-e-3',
-            prompt: `Your role is to design a single realistic lego character with realistic shoes standing directly facing us using "${creativeDescription}". Focus on the artists and brands mentioned, make them evident, and make sure part only includes the style described for that part. Transparent background. Make sure it has yello hands. Make sure the lego is wearing the shoes and accessories. `, 
+            prompt: `Your role is to design a single realistic lego character with realistic shoes standing directly facing us using "${creativeDescription}". Focus on the artists and brands mentioned, make them evident, and make sure part only includes the style described for that part. Transparent background. Make sure it has yellow hands. Make sure the lego is wearing the shoes and accessories. `, 
             n: 1,
             size: '1024x1024',
         });
 
-        // Capturing the URL from the response
-        const imageUrl = imageResponse.data[0].url; // Ensure correct access based on actual response structure
-        const pythonCommand = `python remove_bg.py "${imageUrl}"`;
+        const imageUrl = imageResponse.data[0].url;
 
-        const newImageUrl = await new Promise((resolve, reject) => {
-            exec(pythonCommand, (error, stdout, stderr) => {
-                if (error) {
-                    console.error(`Error: ${error.message}`);
-                    reject(error);
-                }
-                if (stderr) {
-                    console.error(`Stderr: ${stderr}`);
-                    reject(stderr);
-                }
-                resolve(stdout.trim());
+        // New code replacing pythonCommand
+        let runPy = new Promise(function(success, nosuccess) {
+            const pyprog = spawn('python', ['./remove_bg.py', imageUrl]);
+
+            pyprog.stdout.on('data', function(data) {
+                success(data.toString().trim());
+            });
+
+            pyprog.stderr.on('data', (data) => {
+                nosuccess(data.toString());
             });
         });
+
+        const newImageUrl = await runPy;
 
         return newImageUrl; // This will return the URL to wherever the function was called
 
     } catch (error) {
         console.error("Error generating image:", error);
-        // Handle error appropriately
         throw error; // or return a default value or error message
     }
 };

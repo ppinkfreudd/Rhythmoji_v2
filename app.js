@@ -1,4 +1,3 @@
-// app.js
 require('dotenv').config();
 const express = require('express');
 const SpotifyWebApi = require('spotify-web-api-node');
@@ -7,6 +6,7 @@ var session = require('express-session');
 const { OpenAI } = require('openai');
 const { generateCreativePrompt, generateRhythmoji } = require('./controllers/openaiController');
 const port = process.env.PORT || 3000;
+
 // Configure the Express application
 const app = express();
 
@@ -21,7 +21,6 @@ app.use(session({
 app.use(express.json());
 app.use(express.static(__dirname));
 
-
 // Create route for handling POST requests to '/openai/response'
 app.post('/openai/response', generateCreativePrompt);
 
@@ -34,9 +33,15 @@ const spotifyApi = new SpotifyWebApi({
 
 // Serve the main HTML page at the root
 app.get('/', (req, res) => {
-    res.sendFile('index.html', { root: __dirname });
-  });
-  
+    // Check if user session has an authenticated state
+    if (req.session && req.session.isAuthenticated) {
+        res.sendFile('index.html', { root: __dirname });
+    } else {
+        // If not authenticated, redirect to login
+        res.redirect('/login');
+    }
+});
+
 // Routes
 app.get('/login', (req, res) => {
   var scopes = ['user-top-read'],
@@ -69,6 +74,7 @@ app.get('/callback', (req, res) => {
 
         req.session.topArtists = topArtists;
         req.session.topGenres = topGenres;
+        req.session.isAuthenticated = true; // Set session as authenticated
         res.redirect('/display');
         
     }).catch(error => {
@@ -82,7 +88,6 @@ app.get('/callback', (req, res) => {
   });
 });
 
-
 app.get('/display', async (req, res) => {
     try {
         const genres = req.session.topGenres;
@@ -95,7 +100,6 @@ app.get('/display', async (req, res) => {
         // Ensure the structure matches what generateCreativePrompt expects
         req.body = { genres: genres, artists: artists };
 
-
         const creativeDescription = await generateCreativePrompt(req);
         const imageUrl = await generateRhythmoji(creativeDescription);
         
@@ -106,7 +110,6 @@ app.get('/display', async (req, res) => {
         res.status(500).send("An error occurred while processing your request.");
     }
 });
-
 
 // Helper function to get top items by count
 function getTopItems(items, limit) {
@@ -127,4 +130,4 @@ function generateRandomString(length) {
 // Start the Express server
 app.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`);
-  });
+});
