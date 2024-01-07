@@ -1,0 +1,21 @@
+version: '3'
+services:
+  node-app:
+    build: ./rhythmoji-app
+    links:
+      - "flask-app"
+    depends_on:
+      - flask-app
+    networks:
+      - mynet
+    ports:
+      - "3000:3000"
+  flask-app:
+    build: ./background-removal-app
+    ports:
+      - "5001:5001"
+    networks:
+      - mynet
+
+networks:
+  mynet:

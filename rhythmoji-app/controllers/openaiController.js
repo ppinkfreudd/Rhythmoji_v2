@@ -84,9 +84,10 @@ const generateRhythmoji = async (creativeDescription) => {
         });
 
         const imageUrl = imageResponse.data[0].url;
+        console.log(imageUrl);
         
         //call to flask app to remove background
-        const removeBgResponse = await fetch('http://127.0.0.1:5000/remove-background', {
+        const removeBgResponse = await fetch('http://flask-app:5001/remove-background', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ image_url: imageUrl })
