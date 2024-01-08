@@ -35,7 +35,7 @@
         <a href="/about">About</a>
         <a href="/privacy">Privacy</a>
         <a href="https://ko-fi.com">Buy Us a Coffee</a>
-        <a href="/logout">Logout</a>
+        <button id="logout-btn" class="logout-button">Logout</button>
 
     </div>
 
@@ -97,6 +97,21 @@
             link.click();
             document.body.removeChild(link);
         }
+
+        const logout = () => {
+            const url = 'https://accounts.spotify.com/logout';
+            const spotifyLogoutWindow = window.open(
+                url,
+                'Spotify Logout',
+                'width=700,height=500,top=40,left=40'
+            );
+            setTimeout(() => {
+                spotifyLogoutWindow.close();
+                location.href = '/logout'; // Redirect to your Express app's logout route
+            }, 2000);
+        };
+
+        document.getElementById('logout-btn').addEventListener('click', logout);
 
      </script>
 </body>

@@ -91,21 +91,20 @@
 
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
-var swiper = new Swiper('.swiper-container', {
-    slidesPerView: 2,
-    spaceBetween: 20,
-    loop: true,
-    speed: 1000, // You can adjust the speed for a smoother transition
-    autoplay: {
-        delay: 5,
-        disableOnInteraction: false,
-        reverseDirection: true,
-    },
-    // Enable smooth transition
-    effect: 'slide',
-});
-      </script>
-    <script>
+        var swiper = new Swiper('.swiper-container', {
+            slidesPerView: 2,
+            spaceBetween: 20,
+            loop: true,
+            speed: 1000, // You can adjust the speed for a smoother transition
+            autoplay: {
+                delay: 5,
+                disableOnInteraction: false,
+                reverseDirection: true,
+            },
+            // Enable smooth transition
+            effect: 'slide',
+        });
+      
         function scrollToAbout() {
             const aboutSection = document.getElementById("about");
             aboutSection.scrollIntoView({ behavior: "smooth" });

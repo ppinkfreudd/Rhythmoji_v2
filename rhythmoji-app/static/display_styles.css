@@ -74,7 +74,7 @@ body {
     padding: 1rem; /* Padding to position the nav */
 }
 
-.nav a {
+.nav a, .nav button {
     color: #1DB954;
     text-decoration: none;
     margin: 0 10px;
@@ -82,9 +82,10 @@ body {
     transition: color 0.3s ease;
 }
 
-.nav a:hover {
+.nav a, .nav button:hover {
     color: #ddd;
 }
+
 
 /* Genre list styles */
 #genreList {
