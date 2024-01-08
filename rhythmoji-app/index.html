@@ -4,9 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rhythmoji</title>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <link rel="stylesheet" href="static/index_styles.css">
-
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Swiper specific styles if necessary */
+        .swiper-container {
+            width: 50%;
+            height: 50vh;
+            left:50rem;
+        }
+
+        .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            background: #fff;
+
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        /* Adjust the size of the images here as needed */
+        .swiper-slide img {
+            display: block;
+            width: auto;
+            height: 100%;
+        }
+
+    </style>
 </head>
 <body>
     <header>
@@ -24,20 +60,57 @@
             <p>Hey there! Want to see your Rhythmoji? Log in below!</p>
             <a href="/login" class="spotify-login-btn">Login with Spotify</a>
         </div>
-        <div class="image-placeholder">
-            <img src="updatedImage.jpg" alt="Placeholder Image">
+        
+    <!-- Image Rows Container -->
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <!-- Slides -->
+            <div class="swiper-slide"><img src="Rhythmoji (1).jpg" alt="Rhythmoji Design 1"></div>
+            <div class="swiper-slide"><img src="Rhythmoji (3).jpg" alt="Rhythmoji Design 2"></div>
+            <div class="swiper-slide"><img src="Rhythmoji (4).jpg" alt="Rhythmoji Design 3"></div>
+            <div class="swiper-slide"><img src="Rhythmoji (6).jpg" alt="Rhythmoji Design 4"></div>
+            <div class="swiper-slide"><img src="Rhythmoji (8).jpg" alt="Rhythmoji Design 5"></div>
+            <div class="swiper-slide"><img src="Rhythmoji (9).jpg" alt="Rhythmoji Design 6"></div>
         </div>
+        <!-- If you want pagination -->
+        <!-- <div class="swiper-pagination"></div> -->
+        
+        <!-- If you want navigation buttons -->
+        <!-- <div class="swiper-button-prev"></div> -->
+        <!-- <div class="swiper-button-next"></div> -->
+        
+        <!-- If you want scrollbar -->
+        <!-- <div class="swiper-scrollbar"></div> -->
+    </div>
     </div>
     <div id="about">
         <h2>About Us</h2>
         <p>Your description here.</p>
         <p>Your co-founder's description here.</p>
     </div>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+var swiper = new Swiper('.swiper-container', {
+    slidesPerView: 2,
+    spaceBetween: 20,
+    loop: true,
+    speed: 1000, // You can adjust the speed for a smoother transition
+    autoplay: {
+        delay: 5,
+        disableOnInteraction: false,
+        reverseDirection: true,
+    },
+    // Enable smooth transition
+    effect: 'slide',
+});
+      </script>
     <script>
         function scrollToAbout() {
             const aboutSection = document.getElementById("about");
             aboutSection.scrollIntoView({ behavior: "smooth" });
         }
+
     </script>
 </body>
 </html>
