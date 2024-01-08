@@ -50,6 +50,18 @@ app.get('/login', (req, res) => {
   res.redirect(authorizeURL);
 });
 
+app.get('/logout', (req, res) => {
+  // Destroy the user session
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Error destroying session:', err);
+      return res.status(500).send('Error logging out');
+    }
+    // Redirect to login page or a page indicating successful logout
+    res.redirect('/');
+  });
+});
+
 app.get('/callback', (req, res) => {
   const error = req.query.error;
   const code = req.query.code;
@@ -63,8 +75,11 @@ app.get('/callback', (req, res) => {
 
   spotifyApi.authorizationCodeGrant(code).then(data => {
     const accessToken = data.body['access_token'];
+    const refreshToken = data.body['refresh_token'];
 
     spotifyApi.setAccessToken(accessToken);
+
+    req.session.refreshToken = refreshToken;
 
     // Fetch the top genres
     spotifyApi.getMyTopArtists().then(data => {
@@ -90,6 +105,12 @@ app.get('/callback', (req, res) => {
 
 app.get('/display', async (req, res) => {
     try {
+        if (!req.session.accessToken || tokenIsExpired(req.session)) {
+            await refreshAccessToken(req.session);
+        }
+
+        spotifyApi.setAccessToken(req.session.accessToken);
+
         const genres = req.session.topGenres;
         const artists = req.session.topArtists;
         console.log(genres);
@@ -110,6 +131,18 @@ app.get('/display', async (req, res) => {
         res.status(500).send("An error occurred while processing your request.");
     }
 });
+
+function refreshAccessToken(session) {
+  spotifyApi.setRefreshToken(session.refreshToken);
+  return spotifyApi.refreshAccessToken().then(data => {
+    session.accessToken = data.body['access_token'];
+    spotifyApi.setAccessToken(session.accessToken);
+    return data.body['access_token'];
+  }).catch(error => {
+    console.error('Error refreshing access token:', error);
+  });
+}
+
 
 // Helper function to get top items by count
 function getTopItems(items, limit) {
