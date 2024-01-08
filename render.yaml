@@ -6,13 +6,9 @@ services:
     dockerCommand: docker-compose -f docker-compose.yml up node-app
     envVars:
       - fromPath: .env
-    ports:
-      - port: 3000
 
   # Flask App Configuration (Private)
   - type: pserv
     name: flask-app
     runtime: docker
     dockerCommand: docker-compose -f docker-compose.yml up flask-app
-    envVars:
-      - fromPath: .env
