@@ -4,8 +4,6 @@ services:
     name: node-app
     runtime: docker
     dockerCommand: docker-compose -f docker-compose.yml up node-app
-    envVars:
-      - fromPath: .env
 
   # Flask App Configuration (Private)
   - type: pserv
