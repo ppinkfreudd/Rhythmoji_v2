@@ -104,33 +104,34 @@ app.get('/callback', (req, res) => {
 });
 
 app.get('/display', async (req, res) => {
-    try {
-        if (!req.session.accessToken || tokenIsExpired(req.session)) {
-            await refreshAccessToken(req.session);
-        }
+  try {
+      if (!req.session.accessToken || new Date(req.session.accessTokenExpiration) <= new Date()) {
+          await refreshAccessToken(req.session);
+      }
 
-        spotifyApi.setAccessToken(req.session.accessToken);
+      spotifyApi.setAccessToken(req.session.accessToken);
 
-        const genres = req.session.topGenres;
-        const artists = req.session.topArtists;
-        console.log(genres);
-        if (!genres || !Array.isArray(genres)) {
-            return res.status(400).send("Genres must be provided as an array.");
-        }
+      const genres = req.session.topGenres;
+      const artists = req.session.topArtists;
+      console.log(genres);
+      if (!genres || !Array.isArray(genres)) {
+          return res.status(400).send("Genres must be provided as an array.");
+      }
 
-        // Ensure the structure matches what generateCreativePrompt expects
-        req.body = { genres: genres, artists: artists };
+      // Ensure the structure matches what generateCreativePrompt expects
+      req.body = { genres: genres, artists: artists };
 
-        const creativeDescription = await generateCreativePrompt(req);
-        const imageUrl = await generateRhythmoji(creativeDescription);
-        
-        let genreParams = genres.map(genre => `genres[]=${encodeURIComponent(genre.genre)}`).join('&');
-        res.redirect(`/displayImage.html?img=${encodeURIComponent(imageUrl)}&${genreParams}`);
-    } catch (error) {
-        console.error("Error in /display route:", error);
-        res.status(500).send("An error occurred while processing your request.");
-    }
+      const creativeDescription = await generateCreativePrompt(req);
+      const imageUrl = await generateRhythmoji(creativeDescription);
+      
+      let genreParams = genres.map(genre => `genres[]=${encodeURIComponent(genre.genre)}`).join('&');
+      res.redirect(`/displayImage.html?img=${encodeURIComponent(imageUrl)}&${genreParams}`);
+  } catch (error) {
+      console.error("Error in /display route:", error);
+      res.status(500).send("An error occurred while processing your request.");
+  }
 });
+
 
 function refreshAccessToken(session) {
   spotifyApi.setRefreshToken(session.refreshToken);
