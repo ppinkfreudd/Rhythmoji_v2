@@ -76,10 +76,11 @@ app.get('/callback', (req, res) => {
   spotifyApi.authorizationCodeGrant(code).then(data => {
     const accessToken = data.body['access_token'];
     const refreshToken = data.body['refresh_token'];
+    const expiresIn = data.body['expires_in']; // The duration in seconds that the token is valid
 
-    spotifyApi.setAccessToken(accessToken);
-
-    req.session.refreshToken = refreshToken;
+    session.accessToken = accessToken;
+    session.refreshToken = refreshToken;
+    session.tokenExpiry = new Date().getTime() + expiresIn * 1000;
 
     // Fetch the top genres
     spotifyApi.getMyTopArtists().then(data => {
@@ -102,6 +103,11 @@ app.get('/callback', (req, res) => {
     res.send(`Error getting access token: ${error}`);
   });
 });
+
+function tokenIsExpired(session) {
+  // Assuming the session object has a property called 'tokenExpiry' storing the expiry time in milliseconds
+  return new Date().getTime() > session.tokenExpiry;
+}
 
 app.get('/display', async (req, res) => {
     try {
