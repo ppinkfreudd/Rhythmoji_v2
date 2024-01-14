@@ -8,6 +8,10 @@ WORKDIR /usr/src/app
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Download the rembg model file
+RUN mkdir -p /root/.u2net/ && \
+    wget -O /root/.u2net/u2net.onnx "https://github.com/danielgatis/rembg/releases/download/v0.0.0/u2net.onnx"
+
 # Copy the current directory contents into the container at /usr/src/app
 COPY . .
 

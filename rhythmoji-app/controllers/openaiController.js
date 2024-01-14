@@ -8,6 +8,15 @@ const openai = new OpenAI({
     apiKey: process.env.OPEN_AI_KEY,
 });
 
+const fetchWithTimeout = (url, options, timeout = 7000) => {
+    return Promise.race([
+        fetch(url, options),
+        new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('timeout')), timeout)
+        )
+    ]);
+};
+
 const generateCreativePrompt = async (req) => { // Removed res, as we are returning the value instead of sending response
     //console.log("Received body:", req.body);
     const genreObjects = req.body.genres;
@@ -87,12 +96,12 @@ const generateRhythmoji = async (creativeDescription) => {
         console.log(imageUrl);
         
         //call to flask app to remove background
-        const removeBgResponse = await fetch('http://flask-app:5001/remove-background', {
+        // Call to flask app to remove background with timeout
+        const removeBgResponse = await fetchWithTimeout('http://rhythmoji-flask-app-1:5001/remove-background', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ image_url: imageUrl })
-        });
-
+        }, 10000); // Timeout set to 10000 ms
 
         if (!removeBgResponse.ok) {
             throw new Error(`Error from Flask service: ${removeBgResponse.statusText}`);
@@ -100,7 +109,6 @@ const generateRhythmoji = async (creativeDescription) => {
 
         const buffer = await removeBgResponse.buffer();
         fs.writeFileSync('rhythmoji_no_bg.png', buffer);
-
 
         return imageUrl;
 
