@@ -8,7 +8,7 @@ const openai = new OpenAI({
     apiKey: process.env.OPEN_AI_KEY,
 });
 
-const fetchWithTimeout = (url, options, timeout = 7000) => {
+const fetchWithTimeout = (url, options, timeout = 70000000000) => {
     return Promise.race([
         fetch(url, options),
         new Promise((_, reject) =>
@@ -94,15 +94,12 @@ const generateRhythmoji = async (creativeDescription) => {
 
         const imageUrl = imageResponse.data[0].url;
         console.log(imageUrl);
+	const removeBgResponse = await fetchWithTimeout('http://18.116.243.145:5001/remove-background', {
+    	method: 'POST',
+    	headers: { 'Content-Type': 'application/json' },
+    	body: JSON.stringify({ image_url: imageUrl })
+	}, 1000000000); // Timeout set to 1000000000 ms
         
-        //call to flask app to remove background
-        // Call to flask app to remove background with timeout
-        const removeBgResponse = await fetchWithTimeout('http://rhythmoji-flask-app-1:5001/remove-background', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ image_url: imageUrl })
-        }, 10000); // Timeout set to 10000 ms
-
         if (!removeBgResponse.ok) {
             throw new Error(`Error from Flask service: ${removeBgResponse.statusText}`);
         }
