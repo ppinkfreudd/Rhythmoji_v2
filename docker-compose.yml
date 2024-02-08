@@ -1,13 +1,9 @@
-version: '3'
+version: '2.4' # Using version 2.4 to support mem_limit
 services:
   node-app:
     build: ./rhythmoji-app
-    links:
-      - "flask-app"
     depends_on:
       - flask-app
-    networks:
-      - mynet
     ports:
       - "3000:3000"
     environment:
@@ -15,6 +11,9 @@ services:
       - SPOTIPY_CLIENT_SECRET=${SPOTIPY_CLIENT_SECRET}
       - SPOTIPY_REDIRECT_URI=${SPOTIPY_REDIRECT_URI}
       - OPEN_AI_KEY=${OPEN_AI_KEY}
+    networks:
+      - mynet
+    mem_limit: 4g # Memory limit set to 4GB
 
   flask-app:
     build: ./background-removal-app
@@ -22,6 +21,7 @@ services:
       - "5001:5001"
     networks:
       - mynet
+    mem_limit: 4g # Memory limit set to 4GB
 
 networks:
   mynet:

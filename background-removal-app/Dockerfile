@@ -22,4 +22,4 @@ EXPOSE 5001
 ENV NAME World
 
 # Run the app when the container launches
-CMD ["python", "app.py"]
+CMD ["python", "-u", "app.py"]

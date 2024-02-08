@@ -8,7 +8,7 @@ const openai = new OpenAI({
     apiKey: process.env.OPEN_AI_KEY,
 });
 
-const fetchWithTimeout = (url, options, timeout = 70000000000) => {
+const fetchWithTimeout = (url, options, timeout = 10000000) => {
     return Promise.race([
         fetch(url, options),
         new Promise((_, reject) =>
@@ -87,19 +87,24 @@ const generateRhythmoji = async (creativeDescription) => {
     try {
         const imageResponse = await openai.images.generate({
             model: 'dall-e-3',
-            prompt: `Your role is to design a single realistic lego character with realistic shoes standing directly facing us using "${creativeDescription}". Focus on the artists and brands mentioned, make them evident, and make sure part only includes the style described for that part. Transparent background. Make sure it has yellow hands. Make sure the lego is wearing the shoes and accessories. `, 
+            prompt: `Your role is to design a single realistic lego character with realistic shoes standing directly facing us using "${creativeDescription}".`,
             n: 1,
             size: '1024x1024',
         });
 
+        if (!imageResponse.data || imageResponse.data.length === 0) {
+            throw new Error('No image was generated.');
+        }
+
         const imageUrl = imageResponse.data[0].url;
         console.log(imageUrl);
-	const removeBgResponse = await fetchWithTimeout('http://18.116.243.145:5001/remove-background', {
-    	method: 'POST',
-    	headers: { 'Content-Type': 'application/json' },
-    	body: JSON.stringify({ image_url: imageUrl })
-	}, 1000000000); // Timeout set to 1000000000 ms
-        
+
+        const removeBgResponse = await fetchWithTimeout('http://flask-app:5001/remove-background', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ image_url: imageUrl })
+        }); // Adjusted timeout to 3000 ms for practicality
+
         if (!removeBgResponse.ok) {
             throw new Error(`Error from Flask service: ${removeBgResponse.statusText}`);
         }

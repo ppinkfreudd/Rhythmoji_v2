@@ -15,7 +15,7 @@ def remove_bg():
             return "No image URL provided", 400
 
         try:
-            response = requests.get(image_url, timeout=10)
+            response = requests.get(image_url, timeout=10000)
         except requests.RequestException as e:
             return f"Error fetching image: {e}", 500
 
@@ -56,5 +56,5 @@ def test_route():
     return {"message": "Hello, this is a test"}
 
 if __name__ == '__main__':
-    app.run(debug=False, host='0.0.0.0', port=5001)  # Set debug to False for production
+    app.run(debug=True, host='0.0.0.0', port=5001)  # Set debug to False for production
 
