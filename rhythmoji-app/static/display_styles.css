@@ -23,7 +23,10 @@ body {
     box-shadow: 0 0 10px #0f0, 0 0 20px #0f0, 0 0 40px #0f0; /* Neon glow */
     padding: 1rem 0; /* Reduced padding */
     border-radius: 20px 10px 0 0; 
-    position: relative; /* For absolute positioning of nav */
+
+    text-align: center; /* Center everything within the header */
+    padding: 1rem 0;
+    position: relative;
 }
 
 .header .container {
@@ -66,24 +69,36 @@ body {
 /* Navigation styles */
 /* Navigation menu styles */
 .nav {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background: none; /* Clear background */
-    box-shadow: none; /* Clear box-shadow */
-    padding: 1rem; /* Padding to position the nav */
+    display: flex; /* Use flexbox for aligning nav items */
+    justify-content: center; /* Center nav items */
+    margin-bottom: 30px;
+    align-items: center; /* Align nav items vertically */
+    width: 100%; /* Full width */
+}
+
+.header {
+    order: 2; /* Will ensure header comes after navigation */
+}
+
+.container {
+    order: 3; /* Will ensure container comes after header */
 }
 
 .nav a, .nav button {
+    background: none; /* Remove button-specific backgrounds */
     color: #1DB954;
     text-decoration: none;
     margin: 0 10px;
     font-weight: bold;
+    font-size: 20px;
     transition: color 0.3s ease;
+    border: none; /* Remove border from buttons */
+    padding: 0; /* Reset padding to align with text links */
+    cursor: pointer;
 }
 
-.nav a, .nav button:hover {
-    color: #ddd;
+.nav a:hover, .nav button:hover {
+    color: #000000;
 }
 
 
@@ -111,7 +126,7 @@ body {
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }
 
 .modal-content {
@@ -168,6 +183,8 @@ body {
     .rhythmoji-image {
         width: 70%; /* Adjust image size on smaller screens */
     }
+
+
 }
 .modal-button:hover {
     background-color: #17a143; /* Slightly darker green on hover */

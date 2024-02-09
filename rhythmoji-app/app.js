@@ -53,14 +53,13 @@ app.get('/login', (req, res) => {
 });
 
 app.get('/logout', (req, res) => {
-  // Destroy the user session
   req.session.destroy((err) => {
     if (err) {
       console.error('Error destroying session:', err);
       return res.status(500).send('Error logging out');
     }
-    // Redirect to login page or a page indicating successful logout
-    res.redirect('/');
+    // Inform user to manually log out from Spotify
+    res.send(`<p>Please logout from <a href="https://www.spotify.com/account/overview/" target="_blank" rel="noopener noreferrer">here</a> if you wish to end all sessions.</p>`);
   });
 });
 
