@@ -97,27 +97,31 @@ const generateRhythmoji = async (creativeDescription) => {
         }
 
         const imageUrl = imageResponse.data[0].url;
-        console.log(imageUrl);
+        console.log("Original Image URL:", imageUrl);
 
         const removeBgResponse = await fetchWithTimeout('http://flask-app:5001/remove-background', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ image_url: imageUrl })
-        }); // Adjusted timeout to 3000 ms for practicality
+        });
 
         if (!removeBgResponse.ok) {
             throw new Error(`Error from Flask service: ${removeBgResponse.statusText}`);
         }
 
         const buffer = await removeBgResponse.buffer();
-        fs.writeFileSync('rhythmoji_no_bg.png', buffer);
+        const outputPath = 'rhythmoji_no_bg.png'; // Assuming this is the desired output path
+        fs.writeFileSync(outputPath, buffer);
 
-        return imageUrl;
+        // Assuming the outputPath or a URL to this path is what should be returned
+        // This should be the path or URL to the image with the background removed
+        return outputPath; // Modify this to return a URL if needed
 
     } catch (error) {
         console.error("Error generating image:", error);
-        throw error; // or return a default value or error message
+        throw error;
     }
 };
+
 
 module.exports = { generateCreativePrompt, generateRhythmoji };

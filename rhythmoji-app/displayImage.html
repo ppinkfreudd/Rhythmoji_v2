@@ -17,102 +17,42 @@
         <img class="rhythmoji-image" id="dynamicImage" src="rhythmoji_no_bg.png" alt="Generated Rhythmoji">
         <br>
         <button onclick="downloadImage()" class="modal-button">Download Rhythmoji</button>
+        <!-- Button to see the GPT-4 description -->
+        <button id="showDescriptionBtn" class="modal-button">See Description</button>
+        <!-- Div to display the GPT-4 description -->
+        <div id="gptOutput" style="display:none; border: 1px solid #ccc; padding: 10px; margin-top: 20px; background-color: #f9f9f9;">GPT-4 output will be displayed here</div>
     </div>
-        <!-- The Modal -->
-        <div id="myModal" class="modal">
-
-            <!-- Modal content -->
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>Top Genres:</h2>
-                <ul id="genreList"></ul>
-            </div>
-    
-        </div>
-    
     <div class="nav">
         <a href="/">Home</a>
         <a href="/about">About</a>
         <a href="/privacy">Privacy</a>
         <a href="https://ko-fi.com">Buy Us a Coffee</a>
         <button id="logout-btn" class="logout-button">Logout</button>
-
     </div>
-
-    <button id="myBtn" class="modal-button">See Top Genres</button>
-
-
     <script>
+        document.getElementById('showDescriptionBtn').addEventListener('click', function() {
+            document.getElementById('gptOutput').style.display = 'block';
+        });
+
         window.onload = function() {
-            // Extract image and genres from URL
             const params = new URLSearchParams(window.location.search);
             const imageUrl = params.get('img');
-            const genres = params.getAll('genres[]');
-            
-            // Set the source for the image
-            //document.getElementById('dynamicImage').src = imageUrl;
-            
-            // Display the list of genres
-            const genreListElement = document.getElementById('genreList');
-            genres.forEach(genre => {
-                let listItem = document.createElement('li');
-                listItem.textContent = genre;
-                genreListElement.appendChild(listItem);
-            });
-        }
-        // Get the modal element
-        var modal = document.getElementById('myModal');
-
-        // Get the button that opens the modal
-        var btn = document.getElementById('myBtn');
-
-        // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName('close')[0];
-
-        // When the user clicks the button, open the modal 
-        btn.onclick = function() {
-            modal.style.display = 'block';
-            document.body.style.overflow = 'hidden'; // Disable scrolling of the background
-        }
-
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function() {
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto'; // Enable scrolling again
-        }
-
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = 'none';
-                document.body.style.overflow = 'auto'; // Enable scrolling again
+            document.getElementById('dynamicImage').src = imageUrl ? decodeURIComponent(imageUrl) : 'rhythmoji_no_bg.png';
+            const description = params.get('desc');
+            if (description) {
+                document.getElementById('gptOutput').textContent = decodeURIComponent(description);
             }
-        } 
+        }
+
         function downloadImage() {
             var image = document.getElementById('dynamicImage').src;
             var link = document.createElement('a');
             link.href = image;
-            link.download = 'Rhythmoji.jpg'; // The default filename for the downloaded image
+            link.download = 'Rhythmoji.jpg';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
         }
-
-        const logout = () => {
-            const url = 'https://accounts.spotify.com/logout';
-            const spotifyLogoutWindow = window.open(
-                url,
-                'Spotify Logout',
-                'width=700,height=500,top=40,left=40'
-            );
-            setTimeout(() => {
-                spotifyLogoutWindow.close();
-                location.href = '/logout'; // Redirect to your Express app's logout route
-            }, 2000);
-        };
-
-        document.getElementById('logout-btn').addEventListener('click', logout);
-
-     </script>
+    </script>
 </body>
 </html>

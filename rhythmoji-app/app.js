@@ -10,6 +10,8 @@ const port = process.env.PORT || 3000;
 // Configure the Express application
 const app = express();
 
+app.use(cors());
+
 app.use(session({
   secret: 'your secret key',
   resave: false,
@@ -123,9 +125,13 @@ app.get('/display', async (req, res) => {
 
         const creativeDescription = await generateCreativePrompt(req);
         const imageUrl = await generateRhythmoji(creativeDescription);
-        
+         
+        // Encode the GPT-4 output to include in the URL
+        const encodedDescription = encodeURIComponent(creativeDescription);
         let genreParams = genres.map(genre => `genres[]=${encodeURIComponent(genre.genre)}`).join('&');
-        res.redirect(`/displayImage.html?img=${encodeURIComponent(imageUrl)}&${genreParams}`);
+         
+        // Redirect to the displayImage.html with both the image URL and the GPT-4 output
+         res.redirect(`/displayImage.html?img=${encodeURIComponent(imageUrl)}&${genreParams}&desc=${encodedDescription}`);
     } catch (error) {
         console.error("Error in /display route:", error);
         res.status(500).send("An error occurred while processing your request.");
