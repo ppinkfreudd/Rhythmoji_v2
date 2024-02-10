@@ -8,11 +8,10 @@
     <link rel="stylesheet" href="static/index_styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* Swiper specific styles if necessary */
+        /* Adjusted Swiper specific styles */
         .swiper-container {
-            width: 50%;
-            height: 50vh;
-            left:50rem;
+            width: 100%; /* Full width */
+            height: 50vh; /* Adjust height as needed */
         }
 
         .swiper-slide {
@@ -21,17 +20,8 @@
             background: #fff;
 
             /* Center slide text vertically */
-            display: -webkit-box;
-            display: -ms-flexbox;
-            display: -webkit-flex;
             display: flex;
-            -webkit-box-pack: center;
-            -ms-flex-pack: center;
-            -webkit-justify-content: center;
             justify-content: center;
-            -webkit-box-align: center;
-            -ms-flex-align: center;
-            -webkit-align-items: center;
             align-items: center;
         }
 
@@ -67,28 +57,35 @@
         <p>Made by Rishit Das and Nathaniel Maffly. Currently for close friends only.</p>
     </div>
     
+    <!-- Swiper -->
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <!-- Dynamically added slides for demonstration -->
+            <!-- Repeat the slides structure for as many rows as needed -->
+            <div class="swiper-slide"><img src="images/Rhythmoji (1).jpg" alt="Rhythmoji Design 1"></div>
+            <div class="swiper-slide"><img src="images/Rhythmoji (3).jpg" alt="Rhythmoji Design 2"></div>
+            <div class="swiper-slide"><img src="images/Rhythmoji (4).jpg" alt="Rhythmoji Design 3"></div>
+            <div class="swiper-slide"><img src="images/Rhythmoji (6).jpg" alt="Rhythmoji Design 4"></div>
+            <div class="swiper-slide"><img src="images/Rhythmoji (8).jpg" alt="Rhythmoji Design 5"></div>
+            <div class="swiper-slide"><img src="images/Rhythmoji (9).jpg" alt="Rhythmoji Design 6"></div>
+        </div>
+    </div>
 
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
         var swiper = new Swiper('.swiper-container', {
-            slidesPerView: 2,
-            spaceBetween: 20,
+            slidesPerView: 5, // Adjust this to change the number of images visible at once
+            spaceBetween: 1, // Adjust space between slides
             loop: true,
-            speed: 1000, // You can adjust the speed for a smoother transition
+            effect: 'slide', // Use the default slide effect for smooth transitions
+            speed: 800, // Increase or decrease the speed as needed for smoother transitions (value in ms)
             autoplay: {
-                delay: 5,
+                delay: 0,
                 disableOnInteraction: false,
-                reverseDirection: true,
             },
             // Enable smooth transition
-            effect: 'slide',
+            // You might also consider adjusting the 'autoplay' delay for a smoother experience
         });
-      
-        function scrollToAbout() {
-            const aboutSection = document.getElementById("about");
-            aboutSection.scrollIntoView({ behavior: "smooth" });
-        }
-
     </script>
 </body>
 </html>
