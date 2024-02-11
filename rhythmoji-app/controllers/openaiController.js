@@ -34,7 +34,7 @@ const generateCreativePrompt = async (req) => { // Removed res, as we are return
     console.log(artists);
     let prompt = `Optimize your answer for feeding into dall-e-3. Keep your response under 75 words. Using ${genres.join(", ")} and ${artists.join(", ")} and information from latest internet fashion trends (search for these) and your knowledge of good Dall-E prompts, fill out the following template. If you are to mention an artist, use a "-like" (e.g. Drake-like hoodie):
 
-    Head: the head must be that of an animal (related to their genres)
+    Head: the head must be that of an animal (random and unrelated to the genre)
     Upper body: can be any type of shirt, jacket, or sweater or graphic tee (inspired by artist or genre)
     Lower body: can be any type of shorts, jeans, leggings, skirt, etc. (inspired only by genre (no artists can be mentioned for pants description))
     Shoes: can be any type of shoe (inspired by artist)

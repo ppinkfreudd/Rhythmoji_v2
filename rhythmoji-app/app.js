@@ -7,6 +7,7 @@ const { OpenAI } = require('openai');
 const { generateCreativePrompt, generateRhythmoji } = require('./controllers/openaiController');
 const port = process.env.PORT || 3000;
 
+
 // Configure the Express application
 const app = express();
 

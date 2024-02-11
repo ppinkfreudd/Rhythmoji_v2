@@ -20,7 +20,12 @@
         <!-- Button to see the GPT-4 description -->
         <button id="showDescriptionBtn" class="modal-button">See Description</button>
         <!-- Div to display the GPT-4 description -->
-        <div id="gptOutput" style="display:none; border: 1px solid #ccc; padding: 10px; margin-top: 20px; background-color: #f9f9f9;">GPT-4 output will be displayed here</div>
+        <div id="fullDescription" style="display:none; border: 1px solid #ccc; padding: 10px; margin-top: 20px; background-color: #f9f9f9;">Full description will be displayed here</div>
+        <div id="headOutput" style="display:none; border: 1px solid #ccc; padding: 10px; margin-top: 20px; background-color: #f9f9f9;">Head description will be displayed here</div>
+        <div id="upperBodyOutput" style="display:none; border: 1px solid #ccc; padding: 10px; margin-top: 20px; background-color: #f9f9f9;">Upper body description will be displayed here</div>
+        <div id="lowerBodyOutput" style="display:none; border: 1px solid #ccc; padding: 10px; margin-top: 20px; background-color: #f9f9f9;">Lower body description will be displayed here</div>
+        <div id="shoesOutput" style="display:none; border: 1px solid #ccc; padding: 10px; margin-top: 20px; background-color: #f9f9f9;">Shoe description will be displayed here</div>
+        <div id="accessoryOutput" style="display:none; border: 1px solid #ccc; padding: 10px; margin-top: 20px; background-color: #f9f9f9;">Accessory description will be displayed here</div>
     </div>
     <div class="nav">
         <a href="/">Home</a>
@@ -30,7 +35,13 @@
     </div>
     <script>
         document.getElementById('showDescriptionBtn').addEventListener('click', function() {
-            document.getElementById('gptOutput').style.display = 'block';
+            // Display the description divs
+            document.getElementById('fullDescription').style.display = 'block';
+            document.getElementById('headOutput').style.display = 'block';
+            document.getElementById('upperBodyOutput').style.display = 'block';
+            document.getElementById('lowerBodyOutput').style.display = 'block';
+            document.getElementById('shoesOutput').style.display = 'block';
+            document.getElementById('accessoryOutput').style.display = 'block';
         });
 
         window.onload = function() {
@@ -38,8 +49,41 @@
             const imageUrl = params.get('img');
             document.getElementById('dynamicImage').src = imageUrl ? decodeURIComponent(imageUrl) : 'rhythmoji_no_bg.png';
             const description = params.get('desc');
+
             if (description) {
-                document.getElementById('gptOutput').textContent = decodeURIComponent(description);
+                const decodedDescription = decodeURIComponent(description);
+
+                // Function to extract descriptions based on tags
+                function extractDescriptionByTag(fullDescription, tagName) {
+                    const regex = new RegExp(`${tagName}: (.*?)(?=\\n[A-Z]|$)`, 's');
+                    const match = fullDescription.match(regex);
+                    return match ? match[1].trim() : 'Not specified';
+                }
+
+                // Extracting individual descriptions
+                const headDescription = extractDescriptionByTag(decodedDescription, 'Head');
+                const upperBodyDescription = extractDescriptionByTag(decodedDescription, 'Upper body');
+                const lowerBodyDescription = extractDescriptionByTag(decodedDescription, 'Lower body');
+                const shoesDescription = extractDescriptionByTag(decodedDescription, 'Shoes');
+                const accessoryDescription = extractDescriptionByTag(decodedDescription, 'Accessory');
+
+                const fullDescription = `Your character is a ${headDescription}.<br> You're wearing a ${upperBodyDescription}. <br>Your lower body is dressed with ${lowerBodyDescription}.<br> Checkout the kicks - ${shoesDescription}.<br> Last but not least, you're accessorized with ${accessoryDescription}`;
+                const head = `<strong>Head: </strong> ${headDescription}`;
+                const upperBody = `<strong>Upper Body: </strong> ${upperBodyDescription}`;
+                const lowerBody = `<strong>Lower Body: </strong> ${lowerBodyDescription}`;
+                const shoes = `<strong>Shoes: </strong> ${shoesDescription}`;
+                const accessory = `<strong>Accessory: </strong> ${accessoryDescription}`;
+
+                // Assuming you have corresponding elements in your HTML for these parts
+                document.getElementById('fullDescription').innerHTML = fullDescription;
+                document.getElementById('headOutput').innerHTML = head;
+                document.getElementById('upperBodyOutput').innerHTML = upperBody;
+                document.getElementById('lowerBodyOutput').innerHTML = lowerBody;
+                document.getElementById('shoesOutput').innerHTML = shoes;
+                document.getElementById('accessoryOutput').innerHTML = accessory;
+
+                // Optionally, you can still show the full description in 'gptOutput' or remove this line if not needed
+                document.getElementById('gptOutput').textContent = decodedDescription;
             }
         }
 
