@@ -1,68 +1,66 @@
 body {
     font-family: 'Courier Prime', monospace;
     background-color: #ffffff;
-    color: #333;
+    color: #ffffff;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+    display: flex;
+    flex-direction: column; /* Align children elements in a column */
+    justify-content: center; /* Center children vertically */
+    align-items: center; /* Center children horizontally */
+    height: 100vh; /* Ensure body takes full viewport height */
 }
 
 .container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
-    height: auto;
+    width: 100%; /* Set a width to the container */
+    max-width: 1200px; /* Max width can be adjusted as needed */
+    margin: auto; /* Center the container in the viewport */
     padding: 20px;
+    box-sizing: border-box; /* Include padding in the width calculation */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .header-content {
-    flex-basis: 25%;
+    width: 100%; /* Use full width */
     text-align: center;
-    margin: 100px 20px 0; /* Increased top margin */
+    margin: 20px 0; /* Provide some space around */
+    z-index: 2;
+}
+
+
+.header-content, .spotify-login-btn, .main-nav {
+    text-align: center;
+    margin: 20px 0; /* Adjust margin for uniform spacing */
+    z-index: 2;
 }
 
 h1 {
     font-family: 'Courier Prime', monospace;
     font-weight: 700;
-    font-size: 3em; /* Increased font size */
-    color: #000000;
-
-    position: absolute;
-    top: 25%; 
-    left: 50%; 
-    transform: translate(-50%, -50%); 
+    font-size: 3em;
+    margin: 0; /* No margin to interfere with centering */
 }
 
 p {
     font-size: 1.2em; /* Increased font size */
-    color: #555;
+    color: #000000;
 }
 
 .spotify-login-btn {
-    display: inline-block;
     background-color: #1DB954;
     color: white;
-    padding: 15px 25px; /* Increased padding */
+    padding: 15px 25px;
     border-radius: 20px;
     text-decoration: none;
     font-weight: 400;
-    font-size: 1.2em; /* Increased font size */
-    border: 2px solid transparent;
-    transition: background-color 0.3s, transform 0.3s, border-color 0.3s;
-    margin-top: 15px;
-
-    position: absolute;
-    top: 40%; 
-    left: 50%; 
-    transform: translate(-50%, -50%); 
-}
-
-.spotify-login-btn:hover {
-    background-color: transparent;
-    color: #1DB954;
-    border-color: #1DB954;
-
+    font-size: 1.2em;
+    border: none; /* Assuming no border is needed, but adjust as necessary */
+    cursor: pointer; /* Indicate the button is clickable */
+    margin: 50px 0; /* Provide some space around */
 }
 
 .image-placeholder img {
@@ -77,10 +75,11 @@ p {
 }
 
 .main-nav {
-    position: absolute;
-    top: 20%; 
-    left: 50%; 
-    transform: translate(-50%, -50%); 
+    width: 100%; /* Use full width */
+    text-align: center;
+    margin: 20px 0; /* Provide some space around */
+    justify-content: center;
+    
 }
 
 .main-nav a {
@@ -91,40 +90,36 @@ p {
     font-weight: 400;
     font-size: 1.2em; /* Increased font size */
     transition: background-color 0.3s;
+
 }
 
 .main-nav ul {
     list-style: none;
     padding: 0;
     display: flex;
+    justify-content: center; /* Center the navigation items */
     gap: 10px;
 }
 
 .main-nav li {
-    background-color: #1DB954;
     border-radius: 3px;
-    transition: background-color 0.3s;
 }
 
 .main-nav a {
-    display: block;
-    padding: 5px 10px;
+    padding: 10px 15px;
     text-decoration: none;
     color: rgb(0, 0, 0);
     font-weight: 400;
-    transition: background-color 0.3s;
 }
 
-.main-nav li:hover {
-    background-color: #0f7a3c;
-}
+
 
 #about {
     text-align: center;
     padding: 30px;
     background-color: #ffffff;
     color: white;
-    margin-top: 250px;
+
 }
 
 @media (max-width: 768px) {

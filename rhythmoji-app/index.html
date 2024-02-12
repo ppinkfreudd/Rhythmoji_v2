@@ -5,86 +5,363 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rhythmoji</title>
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="static/index_styles.css">
+    <link rel="stylesheet" href="/Users/rdas/Desktop/Rhythmoji_v2/rhythmoji-app/static/index_styles2.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* Adjusted Swiper specific styles */
-        .swiper-container {
-            width: 100%; /* Full width */
-            height: 50vh; /* Adjust height as needed */
+        @keyframes pulsate {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
         }
-
+        .spotify-login-btn {
+        background-color: #1DB954;
+        }
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            font-family: 'Courier Prime', monospace;
+            background-color: #ffffff;
+            color: #000;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: stretch;
+            height: 100vh;
+            width: 100vw;
+        }
+        .sidebar {
+            width: 350px;
+            background-color: #fff;
+            color: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            padding: 20px;
+            box-sizing: border-box;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 5;
+            overflow-y: auto;
+            border-right: 2px solid black;
+        }
+        h1#rhythmoji {
+            font-family: 'Courier Prime', monospace;
+            font-weight: 700;
+            font-size: 2.5em;
+            margin: 0;
+            color: #000;
+            text-transform: lowercase;
+            letter-spacing: 0px;
+        }
+        .main-nav {
+            width: 100%;
+            margin: 20px 0;
+            margin-top:90px;
+            margin-right: 50px;
+        }
+        .main-content {
+            margin-left: 250px;
+            flex-grow: 1;
+            overflow-y: auto;
+            height: 100vh;
+            padding-left: 20px;
+            padding-right: 20px;
+            box-sizing: border-box;
+        }
+        .creator-info {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .creator {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 10px;
+            margin-left:50px;
+        }
+        .creator img {
+            width: 80px;
+            height: auto;
+            margin-bottom: 8px;
+        }
+        .creator p {
+            margin: 0;
+            font-size: 1em;
+        }
+        .creator-info .names {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+        }
+        .content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .swiper-container {
+            position: absolute;
+            top: 0;
+            left: 250px;
+            width: calc(100% - 250px);
+            height: 33.33%;
+        }
+        .swiper1 {
+            top: 0;
+        }
+        .swiper2 {
+            top: 33.33%;
+        }
+        .swiper3 {
+            top: 66.66%;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
         .swiper-slide {
             text-align: center;
             font-size: 18px;
             background: #fff;
-
-            /* Center slide text vertically */
             display: flex;
             justify-content: center;
             align-items: center;
         }
-
-        /* Adjust the size of the images here as needed */
         .swiper-slide img {
             display: block;
-            width: auto;
-            height: 100%;
+            max-width: 100%;
+            max-height: 100%;
         }
+        .container, header, #about {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 1900px;
+            margin: auto;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: -100px;
+        }
+        .swiper-wrapper {
+            -webkit-transition-timing-function:linear!important; 
+            -o-transition-timing-function:linear!important;
+            transition-timing-function:linear!important; 
+        }
+        .header-content, .spotify-login-btn {
+            border-radius: 20px;
+            animation: fadeIn 2s ease-out;
+            padding: 5px 10px;
+            box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            margin: auto;
+            display: inline-block;
+            width:80%;
+            text-align: center;
+            z-index: 2;
+            margin-bottom: 50px;
+        }
+        .main-nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
+        }
+        .main-nav li {
+            margin-bottom: -20px;
+            position: relative;
+            background-color: transparent;
+        }
+        .main-nav li::before {
+            content: '>';
+            font-size: 1.2em;
+            color: #000000;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: pulsate 1s infinite;
+        }
+        .main-nav a {
+            display: block;
+            padding: 10px 15px;
+            text-decoration: none;
+            color: #000;
+            background-color: transparent;
+            font-weight: 400;
+            font-size: 1em;
+            line-height: 1.2em;
+            transition: color 0.3s;
+            padding-left: 25px;
+        }
+        @media (max-width: 768px) {
+    body, html {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center content vertically */
+        justify-content: center; /* Center content horizontally */
+        height: 100vh; /* Full viewport height */
+        overflow-x: hidden; /* Prevent horizontal scrolling */
+        overflow-y: auto; /* Enable vertical scrolling if necessary */
+    }
+
+    /* Adjust the sidebar to fit in the middle of the display */
+    .sidebar {
+        width: 90%; /* Adjust width to fit on mobile screens */
+        height: auto; /* Auto height based on content */
+        margin: 20px 0; /* Add some space on the top and bottom */
+        padding: 20px;
+        position: relative; /* Use relative for natural document flow */
+        background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+        border-radius: 20px; /* Rounded corners */
+       border-right: none;
+        overflow-y: visible; /* No scrolling required to see content */
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center; /* Center items inside the sidebar */
+    }
+
+    /* Hide the second swiper container */
+    .swiper-container.swiper2 {
+        display: none;
+    }
+
+    /* Adjust the first and third swiper containers to take up equal thirds */
+    .swiper-container.swiper1, .swiper-container.swiper3 {
+        height: 33.33vh; /* Each takes up one third of the viewport height */
+        width: 100%; /* Full width */
+        position: static; /* Normal document flow, adjust if necessary */
+    }
+
+    .swiper-slide img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: cover; /* Ensure images cover the slide area without distortion */
+    }
+
+    /* Additional adjustments */
+    .header-content, .spotify-login-btn {
+        font-size: 14px; /* Smaller font size for mobile */
+        padding: 10px 20px; /* Adjust padding */
+        margin: 10px auto; /* Center and add vertical spacing */
+        width: auto; /* Auto width to fit content */
+    }
+}
+
 
     </style>
 </head>
 <body>
-    <header>
-        <nav class="main-nav">
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="privacy">Privacy</a></li>
-            </ul>
-        </nav>
-    </header>
-    <div class="container">
-        <div class="header-content">
-            <h1>Rhythmoji</h1>
-            <a href="/login" class="spotify-login-btn">Login with Spotify</a>
+    <div class="sidebar">
+        <h1 id="rhythmoji">
+            <span>Rhythmoji</span>
+        </h1>
+        <header>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="privacy">Privacy</a></li>
+                </ul>
+            </nav>
+        </header>
+        <a href="/login" class="spotify-login-btn">Login with Spotify</a>
+        <p>Transforming your Spotify into a Lego figure.</p>
+        <p>Made by</p>
+        <div class="creator-info">
+            <div class="creator">
+                <img src="Rishit_Rhythmoji.png" alt="Rishit's Rhythmoji">
+                <p>Rishit</p>
+            </div>
+            <div class="creator">
+                <img src="Nathan_Rhythmoji.png" alt="Nathan's Rhythmoji">
+                <p>Nathan</p>
+            </div>
         </div>
+        <p>Currently for close friends only.</p>
+        
     </div>
-
-    <div id="about">
-        <h2>About Us</h2>
-        <p>Transforming your Spotify into an AI-driven toy figure</p>
-        <p>Made by Rishit Das and Nathaniel Maffly. Currently for close friends only.</p>
-    </div>
-    
-    <!-- Swiper -->
-    <div class="swiper-container">
+    <div class="swiper-container swiper1">
         <div class="swiper-wrapper">
-            <!-- Dynamically added slides for demonstration -->
-            <!-- Repeat the slides structure for as many rows as needed -->
-            <div class="swiper-slide"><img src="images/Rhythmoji (1).jpg" alt="Rhythmoji Design 1"></div>
-            <div class="swiper-slide"><img src="images/Rhythmoji (3).jpg" alt="Rhythmoji Design 2"></div>
-            <div class="swiper-slide"><img src="images/Rhythmoji (4).jpg" alt="Rhythmoji Design 3"></div>
-            <div class="swiper-slide"><img src="images/Rhythmoji (6).jpg" alt="Rhythmoji Design 4"></div>
-            <div class="swiper-slide"><img src="images/Rhythmoji (8).jpg" alt="Rhythmoji Design 5"></div>
-            <div class="swiper-slide"><img src="images/Rhythmoji (9).jpg" alt="Rhythmoji Design 6"></div>
+            <div class="swiper-slide"><img src="images/owl5.jpg" alt="Bear"></div>
+            <div class="swiper-slide"><img src="images/boar.jpg" alt="Boar"></div>
+            <div class="swiper-slide"><img src="images/bug.jpg" alt="Bug"></div>
+            <div class="swiper-slide"><img src="images/bunny.jpg" alt="Bunny"></div>
+            <div class="swiper-slide"><img src="images/cheetah.jpg" alt="Cheetah"></div>
+            <div class="swiper-slide"><img src="images/crow.png" alt="Crow"></div>
         </div>
     </div>
-
+    <div class="swiper-container swiper2">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="images/dog.jpg" alt="Dog"></div>
+            <div class="swiper-slide"><img src="images/eagle.jpg" alt="Eagle"></div>
+            <div class="swiper-slide"><img src="images/gorilla.jpeg" alt="Gorilla"></div>
+            <div class="swiper-slide"><img src="images/llama.jpg" alt="Llama"></div>
+            <div class="swiper-slide"><img src="images/octopus.jpg" alt="Octopus"></div>
+            <div class="swiper-slide"><img src="images/owl.jpg" alt="Owl"></div>
+        </div>
+    </div>
+    <div class="swiper-container swiper3">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="images/panther.jpeg" alt="Panther"></div>
+            <div class="swiper-slide"><img src="images/skunk.jpg" alt="Skunk"></div>
+            <div class="swiper-slide"><img src="images/squid.jpg" alt="Squid"></div>
+            <div class="swiper-slide"><img src="images/wolf.jpg" alt="Wolf"></div>
+            <div class="swiper-slide"><img src="images/wolf1.jpg" alt="Wolf 1"></div>
+            <div class="swiper-slide"><img src="images/wolf2.png" alt="Wolf 2"></div>
+        </div>
+    </div>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
-        var swiper = new Swiper('.swiper-container', {
-            slidesPerView: 5, // Adjust this to change the number of images visible at once
-            spaceBetween: 1, // Adjust space between slides
+        var swiper1 = new Swiper('.swiper1', {
             loop: true,
-            effect: 'slide', // Use the default slide effect for smooth transitions
-            speed: 800, // Increase or decrease the speed as needed for smoother transitions (value in ms)
+            slidesPerView: 5,
+            freeMode: false,
+            allowTouchMove: false,
             autoplay: {
                 delay: 0,
                 disableOnInteraction: false,
             },
-            // Enable smooth transition
-            // You might also consider adjusting the 'autoplay' delay for a smoother experience
+            speed: 5000,
+        });
+
+        var swiper2 = new Swiper('.swiper2', {
+            loop: true,
+            slidesPerView: 5,
+            freeMode: false,
+            allowTouchMove: false,
+            autoplay: {
+                delay: 0,
+                disableOnInteraction: false,
+                reverseDirection: true,
+            },
+            speed: 5000,
+        });
+
+        var swiper3 = new Swiper('.swiper3', {
+            loop: true,
+            slidesPerView: 5,
+            freeMode: false,
+            allowTouchMove: false,
+            autoplay: {
+                delay: 0,
+                disableOnInteraction: false,
+            },
+            speed: 5000,
         });
     </script>
 </body>
