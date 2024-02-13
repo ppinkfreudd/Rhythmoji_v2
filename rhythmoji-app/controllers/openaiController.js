@@ -4,6 +4,10 @@ require('dotenv').config();
 const fetch = require('node-fetch'); // To fetch image data
 const fs = require('fs'); // For file system operations
 
+//set to true to use flask microservice (rembg)
+//set to false to get lego with background
+let use_flask_microservice = true;
+
 const openai = new OpenAI({
     apiKey: process.env.OPEN_AI_KEY,
 });
@@ -99,24 +103,28 @@ const generateRhythmoji = async (creativeDescription) => {
         const imageUrl = imageResponse.data[0].url;
         console.log("Original Image URL:", imageUrl);
 
-        const removeBgResponse = await fetchWithTimeout('http://flask-app:5001/remove-background', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ image_url: imageUrl })
-        });
+        if(use_flask_microservice){
+            const removeBgResponse = await fetchWithTimeout('http://flask-app:5001/remove-background', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ image_url: imageUrl })
+            });
 
-        if (!removeBgResponse.ok) {
-            throw new Error(`Error from Flask service: ${removeBgResponse.statusText}`);
+            if (!removeBgResponse.ok) {
+                throw new Error(`Error from Flask service: ${removeBgResponse.statusText}`);
+            }
+
+            const buffer = await removeBgResponse.buffer();
+            const outputPath = 'rhythmoji_no_bg.png'; 
+            fs.writeFileSync(outputPath, buffer);
+
+            // Assuming the outputPath or a URL to this path is what should be returned
+            // This should be the path or URL to the image with the background removed
+            return outputPath; // Modify this to return a URL if needed
+
+        } else {
+            return imageUrl;
         }
-
-        const buffer = await removeBgResponse.buffer();
-        const outputPath = 'rhythmoji_no_bg.png'; // Assuming this is the desired output path
-        fs.writeFileSync(outputPath, buffer);
-
-        // Assuming the outputPath or a URL to this path is what should be returned
-        // This should be the path or URL to the image with the background removed
-        return outputPath; // Modify this to return a URL if needed
-
     } catch (error) {
         console.error("Error generating image:", error);
         throw error;
