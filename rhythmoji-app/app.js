@@ -7,7 +7,6 @@ const { OpenAI } = require('openai');
 const { generateCreativePrompt, generateRhythmoji } = require('./controllers/openaiController');
 const port = process.env.PORT || 3000;
 
-
 // Configure the Express application
 const app = express();
 
@@ -84,7 +83,7 @@ app.get('/callback', (req, res) => {
     req.session.refreshToken = refreshToken;
 
     // Fetch the top genres
-    spotifyApi.getMyTopArtists({ limit: 10, time_range: 'short_term' }).then(data => {
+    spotifyApi.getMyTopArtists().then(data => {
         let topArtists = data.body.items;
         let genres = topArtists.flatMap(artist => artist.genres);
         let topGenres = getTopItems(genres, 10);
