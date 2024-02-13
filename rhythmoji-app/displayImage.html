@@ -14,8 +14,7 @@
         </div>
     </div>
     <div class="container">
-        
-        <img class="rhythmoji-image" id="dynamicImage" src="rhythmoji_no_bg.png" alt="Generated Rhythmoji">
+        <img class="rhythmoji-image" id="dynamicImage" src="" alt="Generated Rhythmoji">
         <br>
         <button onclick="downloadImage()" class="modal-button">Download Rhythmoji</button>
         <!-- Button to see the GPT-4 description -->
@@ -96,6 +95,32 @@
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchImage();
+        });
+
+        function fetchImage() {
+            fetch('/generate-image', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({/* Your body data for the POST request, if any */})
+            })
+            .then(response => response.json())
+            .then(data => {
+                const imgElement = document.getElementById('dynamicImage');
+                // Check if the returned path is a URL or a local path and adjust accordingly
+                if(data.imagePathOrUrl.startsWith("http")) {
+                    imgElement.src = data.imagePathOrUrl;
+                } else {
+                    // Adjust the path as necessary based on your server setup
+                    imgElement.src = `/path/to/images/${data.imagePathOrUrl}`;
+                }
+            })
+            .catch(error => console.error('Error fetching image:', error));
         }
     </script>
 </body>
