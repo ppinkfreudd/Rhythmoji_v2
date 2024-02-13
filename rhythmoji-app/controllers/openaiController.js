@@ -6,7 +6,7 @@ const fs = require('fs'); // For file system operations
 
 //set to true to use flask microservice (rembg)
 //set to false to get lego with background
-let use_flask_microservice = true;
+let use_flask_microservice = false;
 
 const openai = new OpenAI({
     apiKey: process.env.OPEN_AI_KEY,

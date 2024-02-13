@@ -83,7 +83,7 @@ app.get('/callback', (req, res) => {
     req.session.refreshToken = refreshToken;
 
     // Fetch the top genres
-    spotifyApi.getMyTopArtists().then(data => {
+    spotifyApi.getMyTopArtists({time_range: 'short_term'}).then(data => {
         let topArtists = data.body.items;
         let genres = topArtists.flatMap(artist => artist.genres);
         let topGenres = getTopItems(genres, 10);
