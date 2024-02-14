@@ -95,7 +95,7 @@ app.get('/callback', (req, res) => {
         
     }).catch(error => {
         console.error('Error getting top artists:', error);
-        res.send(`Error getting top artists: ${error}`);
+        res.redirect('/error.html');
     });
 
   }).catch(error => {
