@@ -4,6 +4,7 @@ require('dotenv').config();
 const fetch = require('node-fetch'); // To fetch image data
 const fs = require('fs'); // For file system operations
 
+
 //set to true to use flask microservice (rembg)
 //set to false to get lego with background
 let use_flask_microservice = true;
@@ -91,7 +92,7 @@ const generateRhythmoji = async (creativeDescription) => {
     try {
         const imageResponse = await openai.images.generate({
             model: 'dall-e-3',
-            prompt: `Your role is to design a single realistic lego character with realistic shoes standing directly facing us using "${creativeDescription}".`,
+            prompt: `Design studio-lighting portrait of single straight-on forward-facing lego figure with realistic shoes and "${creativeDescription}".`,
             n: 1,
             size: '1024x1024',
         });

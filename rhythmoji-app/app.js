@@ -7,6 +7,7 @@ const { OpenAI } = require('openai');
 const { generateCreativePrompt, generateRhythmoji } = require('./controllers/openaiController');
 const port = process.env.PORT || 3000;
 
+
 // Configure the Express application
 const app = express();
 
@@ -105,37 +106,41 @@ app.get('/callback', (req, res) => {
 });
 
 app.get('/display', async (req, res) => {
-    try {
-        if (!req.session.accessToken || new Date(req.session.accessTokenExpiration) <= new Date()) {
-            await refreshAccessToken(req.session);
-        }
+  try {
+      if (!req.session.accessToken || new Date(req.session.accessTokenExpiration) <= new Date()) {
+          await refreshAccessToken(req.session);
+      }
 
-        spotifyApi.setAccessToken(req.session.accessToken);
+      spotifyApi.setAccessToken(req.session.accessToken);
 
-        const genres = req.session.topGenres;
-        const artists = req.session.topArtists;
-        console.log(genres);
-        if (!genres || !Array.isArray(genres)) {
-            return res.status(400).send("Genres must be provided as an array.");
-        }
+      const genres = req.session.topGenres;
+      const artists = req.session.topArtists;
+      console.log(genres);
+      if (!genres || !Array.isArray(genres)) {
+          return res.status(400).send("Genres must be provided as an array.");
+      }
 
-        // Ensure the structure matches what generateCreativePrompt expects
-        req.body = { genres: genres, artists: artists };
+      // Ensure the structure matches what generateCreativePrompt expects
+      req.body = { genres: genres, artists: artists };
 
-        const creativeDescription = await generateCreativePrompt(req);
-        const imageUrl = await generateRhythmoji(creativeDescription);
-         
-        // Encode the GPT-4 output to include in the URL
-        const encodedDescription = encodeURIComponent(creativeDescription);
-        let genreParams = genres.map(genre => `genres[]=${encodeURIComponent(genre.genre)}`).join('&');
-         
-        // Redirect to the displayImage.html with both the image URL and the GPT-4 output
-         res.redirect(`/displayImage.html?img=${encodeURIComponent(imageUrl)}&${genreParams}&desc=${encodedDescription}`);
-    } catch (error) {
-        console.error("Error in /display route:", error);
-        res.status(500).send("An error occurred while processing your request.");
-    }
+      const creativeDescription = await generateCreativePrompt(req);
+      const imageUrl = await generateRhythmoji(creativeDescription);
+       
+      // Encode the GPT-4 output to include in the URL
+      const encodedDescription = encodeURIComponent(creativeDescription);
+      let genreParams = genres.map(genre => `genres[]=${encodeURIComponent(genre.genre)}`).join('&');
+
+      // Before redirecting, set cache-control headers to prevent caching
+      res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0');
+
+      // Redirect to the displayImage.html with both the image URL and the GPT-4 output
+      res.redirect(`/displayImage.html?img=${encodeURIComponent(imageUrl)}&${genreParams}&desc=${encodedDescription}`);
+  } catch (error) {
+      console.error("Error in /display route:", error);
+      res.status(500).send("An error occurred while processing your request.");
+  }
 });
+
 
 function refreshAccessToken(session) {
   spotifyApi.setRefreshToken(session.refreshToken);
