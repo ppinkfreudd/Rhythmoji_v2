@@ -8,41 +8,169 @@
     <link rel="stylesheet" href="static/about_styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        body {
+            display: flex;
+            justify-content: center; /* Keeps content centered horizontally */
+            align-items: flex-start; /* Aligns content to the top */
+            min-height: 100vh; /* Full viewport height */
+            margin: 0; /* Remove default body margin */
+            padding-top: 20px; /* Adds some space on the top */
+        }
+        
+        .content-container {
+            display: flex;
+            flex-direction: column; /* Default layout */
+            width: 100%;
+        }
+        
+        #about {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Keeps child elements centered */
+            justify-content: flex-start; /* Aligns content to the top */
+            max-width: 70%;
+            width: 100%; /* Ensures #about takes full width of its container */
+            margin-top: 2rem; /* Adds space on the top, adjust as needed */
+        }
+        
         /* Swiper specific styles if necessary */
         .swiper-container {
             width: 50%;
             height: 50vh;
-            left:50rem;
+            left: 50rem;
         }
-
+        
         .swiper-slide {
             text-align: center;
             font-size: 18px;
             background: #fff;
-
+        
             /* Center slide text vertically */
-            display: -webkit-box;
-            display: -ms-flexbox;
-            display: -webkit-flex;
             display: flex;
-            -webkit-box-pack: center;
-            -ms-flex-pack: center;
-            -webkit-justify-content: center;
             justify-content: center;
-            -webkit-box-align: center;
-            -ms-flex-align: center;
-            -webkit-align-items: center;
             align-items: center;
         }
-
+        
         /* Adjust the size of the images here as needed */
         .swiper-slide img {
             display: block;
             width: auto;
             height: 100%;
         }
+        
+        .accordion {
+            background-color: #fff;
+            color: #444;
+            cursor: pointer;
+            padding: 10px;
+            margin: 0 auto 10px auto;
+            width: 50%;
+            border: 2px solid #39FF14;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+            transition: 0.4s;
+            box-sizing: border-box;
+            border-radius: 20px; /* Rounded corners */
+            box-shadow: 0 0 10px #39FF14; /* Green glow effect */
+        }
+        
+        .active, .accordion:hover {
+            background-color: #fff;
+            border: 2px solid #39FF14;
+            box-shadow: 0 0 15px #39FF14; /* Stronger green glow effect on hover/active */
+        }
+        
+        .panel {
+            padding: 0 10px;
+            background-color: white;
+            max-height: 0;
+            width: calc(50% - 20px);
+            margin: 0 auto;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+            border-left: 2px solid #39FF14;
+            border-right: 2px solid #39FF14;
+            border-bottom: 2px solid #39FF14;
+            box-sizing: border-box;
+            text-align: center;
+            border-bottom-left-radius: 20px; /* Rounded corners at the bottom */
+            border-bottom-right-radius: 20px; /* Rounded corners at the bottom */
+        }
+        @media (max-width: 768px) {
+    body {
+        flex-direction: column;
+        align-items: center;
+        padding-top: 0;
+    }
 
-    </style>
+    #about {
+        order: 1; /* Ensures that 'About Us' is first */
+        max-width: 100%;
+        margin-top: 0; /* Adjust the top margin as needed */
+        padding: 1rem;
+        text-align: center;
+    }
+
+    header {
+        order: 0; /* Ensures that header comes after 'About Us' */
+        width: 100%;
+        margin-top: 1rem; /* Space between 'About Us' and the menu */
+    }
+
+    .main-nav {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        scale: 60%;
+        margin-left:9rem;
+        margin-top:4rem;
+        flex-direction: row; /* Align nav items in a row for horizontal layout */
+        padding: 0;
+        flex-wrap: wrap; /* If there's not enough space, it will wrap to the next line */
+    }
+
+    .main-nav ul {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        display: flex;
+        flex-direction: row; /* Align list items in a row for horizontal layout */
+        justify-content: center;
+        align-items: center;
+    }
+
+    .main-nav li {
+        padding: 10px; /* Adjust padding for spacing */
+        text-align: center;
+    }
+
+    .main-nav a {
+        text-decoration: none;
+        color: #000;
+        padding: 10px; /* Adjust padding for larger clickable area */
+    }
+
+    .swiper-container {
+        width: 80%;
+        height: auto;
+        margin: 0 auto;
+    }
+
+    .swiper-slide img {
+        width: 100%;
+        height: auto;
+    }
+
+    .accordion, .panel {
+        width: 100%;
+        margin: 10px 0; /* Add space between accordion items */
+        box-sizing: border-box;
+    }
+}
+
+            </style>
 </head>
 <body>
     <header>
@@ -55,10 +183,9 @@
         </nav>
     </header>
 
-
     <div id="about">
         <h2>About Us</h2>
-        <p>Inspired by other current music and fashion trends as well as popular Spotify apps (Receiptify, GetReadyWithMusic, and more), our tool creates a Lego-esque toy figure based on your music taste.</p>
+        <p>Our tool creates a Lego-esque toy figure based on your music taste. We are inspired by current music and culture/fashion trends as well as popular Spotify apps (Receiptify, GetReadyWithMusic, and more), and hope to unite these two realms.</p>
         <!-- Rhythmoji images for Rishit and Nathaniel -->
         <div class="rhythmoji-founders-container">
             <img src="Rishit_Rhythmoji.png" alt="Rishit's Rhythmoji" class="rhythmoji-image">
@@ -67,6 +194,37 @@
         <p>Made by <a href="https://rishit.info/">Rishit Das</a> and <a href="https://www.linkedin.com/in/nathaniel-maffly-390235268/">Nathaniel Maffly</a></p>
 
         <h2>FAQ</h2>
+        <div class="faq-container">
+            <!-- FAQ Item 1 -->
+            <button class="accordion">How does Rhythmoji work?</button>
+            <div class="panel">
+                <p>Rhythmoji analyzes your Spotify data to create a unique Lego-esque figure that reflects your music taste. It's a fun way to see your music turned into a piece of art.</p>
+            </div>
+        
+            <!-- FAQ Item 2 -->
+            <button class="accordion">Is Rhythmoji free to use?</button>
+            <div class="panel">
+                <p>Yes, Rhythmoji is completely free to use. We believe in making this project accessible to everyone. And we're open source! Check out our <a href="https://github.com/ppinkfreudd/Rhythmoji_v2">GitHub</a> to see how we do it.</p>
+            </div>
+        
+            <!-- FAQ Item 3 -->
+            <button class="accordion">Are there any privacy concerns with Rhythmoji?</button>
+            <div class="panel">
+                <p>Your privacy is important to us. Rhythmoji only uses your Spotify data to create your figure and doesn't store any personal information.</p>
+            </div>
+        
+            <!-- FAQ Item 4 -->
+            <button class="accordion">Can I share my Rhythmoji figure?</button>
+            <div class="panel">
+                <p>Definitely! We love it when users share their Rhythmoji figures. You can download the image and share it on your favorite social media platforms, but we request that you hold off on this until we do a public release. We're working on new features around this and can't wait to release them soon!</p>
+            </div>
+        
+            <!-- FAQ Item 5 -->
+            <button class="accordion">How can I support Rhythmoji?</button>
+            <div class="panel">
+                <p>We're open source and always looking for contributions. If you're interested in supporting us, consider starring our project on <a href="https://github.com/ppinkfreudd/Rhythmoji_v2">GitHub</a> or contributing to the code.</p>
+            </div>
+        </div>
     </div>
     
     
@@ -92,6 +250,20 @@
             aboutSection.scrollIntoView({ behavior: "smooth" });
         }
 
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+            panel.style.maxHeight = null;
+            } else {
+            panel.style.maxHeight = panel.scrollHeight + "px";
+            } 
+        });
+        }
     </script>
 </body>
 </html>
