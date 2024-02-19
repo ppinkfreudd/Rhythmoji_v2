@@ -8,6 +8,8 @@ const { generateCreativePrompt, generateRhythmoji } = require('./controllers/ope
 const port = process.env.PORT || 3000;
 
 
+
+
 // Configure the Express application
 const app = express();
 
@@ -23,6 +25,8 @@ app.use(session({
 // Middleware to extract json data from POST requests
 app.use(express.json());
 app.use(express.static(__dirname));
+app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
 
 // Create route for handling POST requests to '/openai/response'
 app.post('/openai/response', generateCreativePrompt);
@@ -63,6 +67,32 @@ app.get('/logout', (req, res) => {
     res.send(`<p>Please logout from <a href="https://www.spotify.com/account/overview/" target="_blank" rel="noopener noreferrer">here</a> if you wish to end all sessions.</p>`);
   });
 });
+
+app.post('/submit-artists', async (req, res) => {
+  try {
+    // Example artist data structure, adjust based on actual form input
+    const artists = [{name: req.body.artist1}, {name: req.body.artist2}, {name: req.body.artist3}];
+    const genres = []; // Logic to determine genres based on artists if applicable
+
+    // Simulate a request object for generateCreativePrompt
+    const reqSimulated = { body: { artists: artists, genres: genres } };
+
+    const creativeDescription = await generateCreativePrompt(reqSimulated);
+    const imagePath = await generateRhythmoji(creativeDescription);
+
+    // Assuming imagePath is a local server path to the image, you might need to convert it to a URL or serve it statically
+    // For example, if images are served from the '/public/images' directory
+    const imageUrl = `${imagePath}`;
+
+    // Redirect to the displayImage.html with the image and description
+    // Ensure encodeURIComponent is used to safely encode the description in the URL
+    res.redirect(`/displayImage.html?img=${encodeURIComponent(imageUrl)}&desc=${encodeURIComponent(creativeDescription)}`);
+  } catch (error) {
+    console.error("Error generating image:", error);
+    res.status(500).send("Failed to generate image.");
+  }
+});
+
 
 app.get('/callback', (req, res) => {
   const error = req.query.error;
