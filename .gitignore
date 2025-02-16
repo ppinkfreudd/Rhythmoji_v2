@@ -1,3 +1,4 @@
 .env
 .DS_Store
 rhythmoji_no_bg.png
+/node_modules
