@@ -1,166 +1,201 @@
 body {
-    font-family: 'Courier Prime', monospace;
-    background-color: #ffffff;
-    color: #333;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-}
-
-.container {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
-    height: auto;
-    padding: 20px;
+    justify-content: center; /* Keeps content centered horizontally */
+    align-items: flex-start; /* Aligns content to the top */
+    min-height: 100vh; /* Full viewport height */
+    margin: 0; /* Remove default body margin */
+    padding-top: 20px; /* Adds some space on the top */
 }
 
-.header-content {
-    flex-basis: 25%;
-    text-align: center;
-    margin: 100px 20px 0; /* Increased top margin */
-}
-
-h1 {
-    font-family: 'Courier Prime', monospace;
-    font-weight: 700;
-    font-size: 3em; /* Increased font size */
-    color: #000000;
-
-    position: absolute;
-    top: 25%; 
-    left: 50%; 
-    transform: translate(-50%, -50%); 
-}
-
-p {
-    font-size: 1.2em; /* Increased font size */
-    color: #555;
-}
-
-.spotify-login-btn {
-    display: inline-block;
-    background-color: #1DB954;
-    color: white;
-    padding: 15px 25px; /* Increased padding */
-    border-radius: 20px;
-    text-decoration: none;
-    font-weight: 400;
-    font-size: 1.2em; /* Increased font size */
-    border: 2px solid transparent;
-    transition: background-color 0.3s, transform 0.3s, border-color 0.3s;
-    margin-top: 15px;
-
-    position: absolute;
-    top: 40%; 
-    left: 50%; 
-    transform: translate(-50%, -50%); 
-}
-
-.spotify-login-btn:hover {
-    background-color: transparent;
-    color: #1DB954;
-    border-color: #1DB954;
-
-}
-
-.rhythmoji-founders-container {
-    text-align: center; /* Center the images */
-    margin-bottom: 20px; /* Space before the text */
-}
-
-.rhythmoji-image {
-    width: 200px; /* Adjust the width as needed */
-    height: auto; /* Maintain aspect ratio */
-    margin: 0 10px; /* Space between images */
-}
-
-.image-placeholder img {
-    max-width: 80%;
-    height: auto;
-    margin-left: 500px;
-    display: block;
-}
-
-.image-placeholder {
-    margin-top: 70px; /* Increased top margin for the image container */
+.content-container {
+    display: flex;
+    flex-direction: column; /* Default layout */
+    width: 100%;
 }
 
 #about {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #ffffff;
-}
-
-.main-nav a {
-    display: block;
-    padding: 10px 15px; /* Increased padding */
-    text-decoration: none;
-    color: rgb(0, 0, 0);
-    font-weight: 400;
-    font-size: 1.2em; /* Increased font size */
-    transition: background-color 0.3s;
-}
-
-.main-nav ul {
-    list-style: none;
-    padding: 0;
     display: flex;
-    gap: 10px;
+    flex-direction: column;
+    align-items: center; /* Keeps child elements centered */
+    justify-content: flex-start; /* Aligns content to the top */
+    max-width: 70%;
+    width: 100%; /* Ensures #about takes full width of its container */
+    margin-top: 2rem; /* Adds space on the top, adjust as needed */
 }
 
-.main-nav li {
-    background-color: #1DB954;
-    border-radius: 3px;
-    transition: background-color 0.3s;
+/* Swiper specific styles if necessary */
+.swiper-container {
+    width: 50%;
+    height: 50vh;
+    left: 50rem;
 }
 
-.main-nav a {
-    display: block;
-    padding: 5px 10px;
-    text-decoration: none;
-    color: rgb(0, 0, 0);
-    font-weight: 400;
-    transition: background-color 0.3s;
-}
-
-.main-nav li:hover {
-    background-color: #0f7a3c;
-}
-
-#about {
+.swiper-slide {
     text-align: center;
-    padding: 30px;
-    background-color: #ffffff;
-    color: rgb(0, 0, 0);
-    margin-top: 150px;
+    font-size: 18px;
+    background: #fff;
+
+    /* Center slide text vertically */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Adjust the size of the images here as needed */
+.swiper-slide img {
+    display: block;
+    width: auto;
+    height: 100%;
 }
 
 @media (max-width: 768px) {
-    .container {
+    body {
         flex-direction: column;
+        align-items: center;
+        padding-top: 0;
     }
 
-    .header-content, .image-placeholder {
-        flex-basis: 100%;
-        
+    #about {
+        order: 1; /* Ensures that 'About Us' is first */
+        max-width: 100%;
+        margin-top: 0; /* Adjust the top margin as needed */
+        padding: 1rem;
+        text-align: center;
+    }
+
+    header {
+        order: 0; /* Ensures that header comes after 'About Us' */
+        width: 100%;
+        margin-top: 1rem; /* Space between 'About Us' and the menu */
     }
 
     .main-nav {
-        position: static;
-        text-align: center;
-        margin-bottom: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        scale: 60%;
+        margin-left:9rem;
+        margin-top:4rem;
+        flex-direction: row; /* Align nav items in a row for horizontal layout */
+        padding: 0;
+        flex-wrap: wrap; /* If there's not enough space, it will wrap to the next line */
     }
 
     .main-nav ul {
-        flex-direction: column;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        display: flex;
+        flex-direction: row; /* Align list items in a row for horizontal layout */
+        justify-content: center;
+        align-items: center;
     }
 
-    .image-placeholder img {
-        max-width: 100%; /* Increase the max-width for smaller screens */
-        height: auto; /* Maintain aspect ratio */
-        margin-left: auto; /* Keep the image aligned to the right */
+    .main-nav li {
+        padding: 10px; /* Adjust padding for spacing */
+        text-align: center;
     }
+
+    .main-nav a {
+        text-decoration: none;
+        color: #000;
+        padding: 10px; /* Adjust padding for larger clickable area */
+    }
+
+    .swiper-container {
+        width: 80%;
+        height: auto;
+        margin: 0 auto;
+    }
+
+    .swiper-slide img {
+        width: 100%;
+        height: auto;
+    }
+}
+
+/* FAQ Styles */
+#about .faq-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+#about .faq-item {
+    position: relative;
+    margin-bottom: 5px;
+    padding-left: 4px;
+}
+
+#about .faq-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 0;
+    width: 4px;
+    background-color: #1DB954;
+    transition: height 0.2s ease-out;
+}
+
+#about .faq-item.active::before {
+    height: 100%;
+}
+
+#about .accordion {
+    background-color: transparent !important;
+    color: #000 !important;
+    cursor: pointer;
+    padding: 15px 15px 15px 20px;
+    width: 100%;
+    border: none !important;
+    text-align: left;
+    outline: none;
+    font-size: 1.1em;
+    font-family: 'Courier Prime', monospace;
+    transition: background-color 0.2s ease;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    margin: 0;
+}
+
+#about .accordion:hover {
+    background-color: #f5f5f5 !important;
+}
+
+#about .panel {
+    background-color: transparent;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    border: none !important;
+    padding: 0 15px 0 20px;
+    margin: 0;
+    width: 100%;
+    box-shadow: none !important;
+    position: relative;
+}
+
+#about .panel::before {
+    content: '';
+    position: absolute;
+    left: -4px; /* Aligns with the faq-item border */
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background-color: #1DB954;
+    opacity: 0;
+    transition: opacity 0.2s ease-out;
+}
+
+#about .panel.active::before {
+    opacity: 1;
+}
+
+#about .panel p {
+    margin: 15px 0;
+    color: #555;
+    font-size: 1em;
+    text-align: left;
 }
