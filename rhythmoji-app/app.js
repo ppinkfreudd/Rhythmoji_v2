@@ -34,15 +34,21 @@ const spotifyApi = new SpotifyWebApi({
   redirectUri: process.env.SPOTIPY_REDIRECT_URI
 });
 
+// Add these routes if they're not already present
+app.use('/static', express.static('static'));
+app.use(express.static('public'));
+
 // Serve the main HTML page at the root
 app.get('/', (req, res) => {
-    // Check if user session has an authenticated state
-    if (req.session && req.session.isAuthenticated) {
-        res.sendFile('index.html', { root: __dirname });
-    } else {
-        // If not authenticated, redirect to login
-        res.redirect('/login');
-    }
+    res.sendFile(__dirname + '/index.html');
+});
+
+app.get('/about', (req, res) => {
+    res.sendFile(__dirname + '/about.html');
+});
+
+app.get('/privacy', (req, res) => {
+    res.sendFile(__dirname + '/privacy.html');
 });
 
 // Routes

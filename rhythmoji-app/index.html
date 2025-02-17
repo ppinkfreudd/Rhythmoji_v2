@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <link rel="stylesheet" href="/Users/rdas/Desktop/Rhythmoji_v2/rhythmoji-app/static/index_styles2.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
+    <script src="/static/js/navigation.js"></script>
     <style>
         @keyframes pulsate {
             0% { opacity: 0.5; }
@@ -47,6 +48,7 @@
             z-index: 5;
             overflow-y: auto;
             border-right: 2px solid black;
+            z-index: 1000;
         }
         h1#rhythmoji {
             font-family: 'Courier Prime', monospace;
@@ -64,13 +66,12 @@
             margin-right: 50px;
         }
         .main-content {
-            position:relative;
-            margin-left: 250px;
+            position: relative;
+            margin-left: 350px;
             flex-grow: 1;
-            overflow-y: auto;
+            overflow: hidden;
             height: 100vh;
-            padding-left: 20px;
-            padding-right: 20px;
+            padding: 0;
             box-sizing: border-box;
         }
         .creator-info {
@@ -109,18 +110,19 @@
         .swiper-container {
             position: absolute;
             top: 0;
-            left: 250px;
-            width: calc(100% - 250px);
-            height: 33.33%;
+            left: 0;
+            width: 100%;
+            height: 33.33vh;
+            overflow: hidden;
         }
         .swiper1 {
             top: 0;
         }
         .swiper2 {
-            top: 33.33%;
+            top: 33.33vh;
         }
         .swiper3 {
-            top: 66.66%;
+            top: 66.66vh;
         }
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -136,10 +138,16 @@
         }
         .swiper-slide img {
             display: block;
-            max-width: 100%;
-            max-height: 100%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
-        .container, header, #about {
+        #about {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container, header {
             position: relative;
             z-index: 10;
             width: 100%;
@@ -181,7 +189,9 @@
             width: 100%;
         }
         .main-nav li {
-            margin-bottom: -20px;
+            margin-bottom: -10px;
+            border-radius: 3px;
+            padding: 0 10px;
             position: relative;
             background-color: transparent;
         }
@@ -278,8 +288,101 @@
                 margin-bottom: 20px !important;
             }
         }
+        /* .panel {
+            padding: 0 10px;
+            background-color: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+            border-left: 2px solid #39FF14;
+            border-right: 2px solid #39FF14;
+            border-bottom: 2px solid #39FF14;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        } */
+        .rhythmoji-founders-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            margin: 20px 0;
+        }
+        .rhythmoji-image {
+            width: 100px; /* Reduced size */
+            height: auto;
+            margin: 0;
+        }
+        .founder-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .founder-section p {
+            margin-top: 10px;
+            font-size: 1.1em;
+        }
+        .founder-link {
+            color: #1DB954;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .founder-link:hover {
+            color: #168f40;
+            text-decoration: underline;
+        }
+        #dynamic-content .faq-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        #dynamic-content .accordion {
+            background-color: transparent;
+            color: #000;
+            cursor: pointer;
+            padding: 15px 20px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 1.1em;
+            transition: 0.3s;
+            margin-bottom: 10px;
+            font-family: 'Courier Prime', monospace;
+            position: relative;
+            padding-left: 30px;
+        }
+
+        #dynamic-content .accordion:hover {
+            color: #1DB954;
+        }
+
+        #about .accordion::before {
+            content: '|';
+            display: inline-block;
+            margin-right: 10px;
+            color: #000; /* Adjust color as needed */
+        }
 
 
+        #dynamic-content .panel {
+            padding: 0 20px 15px 30px;
+            background-color: transparent;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+            border: none;
+            margin-top: -10px;
+            margin-bottom: 10px;
+            font-size: 1em;
+            color: #555;
+        }
+
+        #dynamic-content .panel p {
+            margin: 0;
+            padding: 10px 0;
+        }
     </style>
 </head>
 <body>
@@ -290,70 +393,68 @@
         <header>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="privacy">Privacy</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/privacy">Privacy</a></li>
                 </ul>
             </nav>
         </header>
 
         <div class="sidebar-info">
-        <a href="/login" class="spotify-login-btn">Login with Spotify</a>
-        <p class="slogan">Transforming your Spotify into a Lego figure.<br><br> Made by </p>
+            <a href="/login" class="spotify-login-btn">Login with Spotify</a>
+            <p class="slogan">Transforming your Spotify into a Lego figure.<br><br> Made by </p>
 
-        
-        <div class="creator-info">
             
-            <div class="creator">
-                <img src="Rishit_Rhythmoji.png" alt="Rishit's Rhythmoji">
-                <p>Rishit</p>
+            <div class="creator-info">
+                
+                <div class="creator">
+                    <img src="Rishit_Rhythmoji.png" alt="Rishit's Rhythmoji">
+                    <p>Rishit</p>
+                </div>
+                <div class="creator">
+                    <img src="Nathan_Rhythmoji.png" alt="Nathan's Rhythmoji">
+                    <p>Nathan</p>
+                </div>
             </div>
-            <div class="creator">
-                <img src="Nathan_Rhythmoji.png" alt="Nathan's Rhythmoji">
-                <p>Nathan</p>
+            <p>Currently for close friends only.</p>
+        </div>
+    </div>
+    <div class="main-content" id="dynamic-content">
+        <div class="swiper-container swiper1">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="images/owl5.jpg" alt="Bear" oncontextmenu="return false;" draggable="false"></div>
+                <div class="swiper-slide"><img src="images/boar.jpg" alt="Boar" oncontextmenu="return false;" draggable="false"></div>
+                <div class="swiper-slide"><img src="images/bug.jpg" alt="Bug" oncontextmenu="return false;" draggable="false"></div>
+                <div class="swiper-slide"><img src="images/bunny.jpg" alt="Bunny" oncontextmenu="return false;" draggable="false"></div>
+                <div class="swiper-slide"><img src="images/cheetah.jpg" alt="Cheetah" oncontextmenu="return false;" draggable="false"></div>
+                <div class="swiper-slide"><img src="images/crow.png" alt="Crow" oncontextmenu="return false;" draggable="false"></div>
             </div>
         </div>
-        <p>Currently for close friends only.</p>
-    </div>
-    </div>
-
-    <div class="swiper-container swiper1">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide"><img src="images/owl5.jpg" alt="Bear" oncontextmenu="return false;" draggable="false"></div>
-            <div class="swiper-slide"><img src="images/boar.jpg" alt="Boar" oncontextmenu="return false;" draggable="false"></div>
-            <div class="swiper-slide"><img src="images/bug.jpg" alt="Bug" oncontextmenu="return false;" draggable="false"></div>
-            <div class="swiper-slide"><img src="images/bunny.jpg" alt="Bunny" oncontextmenu="return false;" draggable="false"></div>
-            <div class="swiper-slide"><img src="images/cheetah.jpg" alt="Cheetah" oncontextmenu="return false;" draggable="false"></div>
-            <div class="swiper-slide"><img src="images/crow.png" alt="Crow" oncontextmenu="return false;" draggable="false"></div>
+        <div class="swiper-container swiper2">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="images/dog.jpg" alt="Dog" oncontextmenu="return false;" draggable="false"></div>
+                <div class="swiper-slide"><img src="images/eagle.jpg" alt="Eagle" oncontextmenu="return false;" draggable="false"></div>
+                <div class="swiper-slide"><img src="images/gorilla.jpeg" alt="Gorilla" oncontextmenu="return false;" draggable="false"></div>
+                <div class="swiper-slide"><img src="images/llama.jpg" alt="Llama" oncontextmenu="return false;" draggable="false"></div>
+                <div class="swiper-slide"><img src="images/octopus.jpg" alt="Octopus" oncontextmenu="return false;" draggable="false"></div>
+                <div class="swiper-slide"><img src="images/owl.jpg" alt="Owl" oncontextmenu="return false;" draggable="false"></div>
+            </div>
         </div>
-    </div>
-    <div class="swiper-container swiper2">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide"><img src="images/dog.jpg" alt="Dog" oncontextmenu="return false;" draggable="false"></div>
-            <div class="swiper-slide"><img src="images/eagle.jpg" alt="Eagle" oncontextmenu="return false;" draggable="false"></div>
-            <div class="swiper-slide"><img src="images/gorilla.jpeg" alt="Gorilla" oncontextmenu="return false;" draggable="false"></div>
-            <div class="swiper-slide"><img src="images/llama.jpg" alt="Llama" oncontextmenu="return false;" draggable="false"></div>
-            <div class="swiper-slide"><img src="images/octopus.jpg" alt="Octopus" oncontextmenu="return false;" draggable="false"></div>
-            <div class="swiper-slide"><img src="images/owl.jpg" alt="Owl" oncontextmenu="return false;" draggable="false"></div>
-        </div>
-    </div>
-    <div class="swiper-container swiper3">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide"><img src="images/panther.jpeg" alt="Panther" oncontextmenu="return false;" draggable="false"></div>
-            <div class="swiper-slide"><img src="images/skunk.jpg" alt="Skunk" oncontextmenu="return false;" draggable="false"></div>
-            <div class="swiper-slide"><img src="images/squid.jpg" alt="Squid" oncontextmenu="return false;" draggable="false"></div>
-            <div class="swiper-slide"><img src="images/wolf.jpg" alt="Wolf" oncontextmenu="return false;" draggable="false"></div>
-            <div class="swiper-slide"><img src="images/wolf1.jpg" alt="Wolf 1" oncontextmenu="return false;" draggable="false"></div>
-            <div class="swiper-slide"><img src="images/wolf2.png" alt="Wolf 2" oncontextmenu="return false;" draggable="false"></div>
-            <div class="swiper-slide"><img src="images/panda.jpeg" alt="Panda" oncontextmenu="return false;" draggable="false"></div>
+        <div class="swiper-container swiper3">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="images/panther.jpeg" alt="Panther" oncontextmenu="return false;" draggable="false"></div>
+                <div class="swiper-slide"><img src="images/skunk.jpg" alt="Skunk" oncontextmenu="return false;" draggable="false"></div>
+                <div class="swiper-slide"><img src="images/squid.jpg" alt="Squid" oncontextmenu="return false;" draggable="false"></div>
+                <div class="swiper-slide"><img src="images/wolf.jpg" alt="Wolf" oncontextmenu="return false;" draggable="false"></div>
+                <div class="swiper-slide"><img src="images/wolf1.jpg" alt="Wolf 1" oncontextmenu="return false;" draggable="false"></div>
+                <div class="swiper-slide"><img src="images/wolf2.png" alt="Wolf 2" oncontextmenu="return false;" draggable="false"></div>
+                <div class="swiper-slide"><img src="images/panda.jpeg" alt="Panda" oncontextmenu="return false;" draggable="false"></div>
+            </div>
         </div>
     </div>
 </div>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
-
-
-
         var swiper1 = new Swiper('.swiper1', {
             loop: true,
             slidesPerView: 5,

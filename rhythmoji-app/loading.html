@@ -1,0 +1,26 @@
+<!-- loading.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ... your head elements, styles etc. -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        function checkLoading() {
+            fetch('/check-loading').then(response => response.json()).then(data => {
+                if(data.loadingComplete) {
+                    window.location.href = `/display-final`; // Redirect to the final display route
+                } else {
+                    // If not done, check again after some time
+                    setTimeout(checkLoading, 2000); // Check every 2 seconds
+                }
+            }).catch(err => console.error('Error checking loading status:', err));
+        }
+        checkLoading(); // Start checking
+    });
+    </script>
+</head>
+<body>
+    <div>Loading, please wait...</div>
+    <!-- Add more of your loading indicators here -->
+</body>
+</html>
