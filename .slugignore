@@ -1,0 +1,21 @@
+# Ignore logs, local environment files, and caches
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Ignore unnecessary directories
+*.md
+*.txt
+.DS_Store
+tests/
+__pycache__/
+.env
+.gitignore
+*.pem  # Private keys (NEVER commit these)
+output.png
+unfiltered_image.png
+docker-compose.yml
+rembg-server/
+background-removal-app/
+lego_extraction_ML/
+Rhythmoji.pem
