@@ -54,3 +54,34 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+function showHome() {
+    document.getElementById('about-section').style.display = 'none';
+    document.querySelectorAll('.swiper-container').forEach(container => {
+        container.style.display = 'block';
+    });
+}
+
+function showAbout() {
+    document.getElementById('about-section').style.display = 'flex';
+    document.querySelectorAll('.swiper-container').forEach(container => {
+        container.style.display = 'none';
+    });
+    
+    // Initialize warp background when about is shown
+    const aboutSection = document.getElementById('about-section');
+    new WarpBackground(aboutSection, {
+        perspective: 100,
+        beamsPerSide: 3,
+        beamSize: 5,
+        beamDelayMax: 3,
+        beamDelayMin: 0,
+        beamDuration: 3,
+        gridColor: 'hsl(var(--border, 215 16% 47%))'
+    });
+}
+
+// Show home by default when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    showHome();
+});

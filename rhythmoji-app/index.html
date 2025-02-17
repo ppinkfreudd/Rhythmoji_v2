@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
     <script src="/static/js/navigation.js"></script>
     <link rel="stylesheet" href="/static/css/index_styles.css">
+    <link rel="stylesheet" href="/static/css/warp-background.css">
 </head>
 <body>
     <div class="sidebar">
@@ -17,8 +18,8 @@
         <header>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/about">About</a></li>
+                    <li><a href="#" onclick="showHome()">Home</a></li>
+                    <li><a href="#" onclick="showAbout()">About</a></li>
                     <li><a href="/privacy">Privacy</a></li>
                 </ul>
             </nav>
@@ -31,13 +32,12 @@
 
             
             <div class="creator-info">
-                
                 <div class="creator">
-                    <img src="Rishit_Rhythmoji.png" alt="Rishit's Rhythmoji">
+                    <img src="../Rishit_Rhythmoji.png" alt="Rishit's Rhythmoji">
                     <p>Rishit</p>
                 </div>
                 <div class="creator">
-                    <img src="Nathan_Rhythmoji.png" alt="Nathan's Rhythmoji">
+                    <img src="../Nathan_Rhythmoji.png" alt="Nathan's Rhythmoji">
                     <p>Nathan</p>
                 </div>
             </div>
@@ -45,6 +45,47 @@
         </div>
     </div>
     <div class="main-content" id="dynamic-content">
+        <div id="about-section" style="display: none;">
+            <div class="about-card">
+                <h2>About Us</h2>
+                <p>Our tool creates a Lego-esque toy figure based on your music taste. We are inspired by current music and culture/fashion trends as well as popular Spotify apps (Receiptify, GetReadyWithMusic, and more), and hope to unite these two realms.</p>
+                
+                <div class="rhythmoji-founders-container">
+                    <div class="founder-section">
+                        <img src="../Rishit_Rhythmoji.png" alt="Rishit's Rhythmoji" class="rhythmoji-image">
+                        <p><a href="https://rishit.info/" class="founder-link">Rishit Das</a></p>
+                    </div>
+                    <div class="founder-section">
+                        <img src="../Nathan_Rhythmoji.png" alt="Nathaniel's Rhythmoji" class="rhythmoji-image">
+                        <p><a href="https://www.linkedin.com/in/nathaniel-maffly-390235268/" class="founder-link">Nathaniel Maffly</a></p>
+                    </div>
+                </div>
+
+                <div class="faq-container">
+                    <h2>FAQ</h2>
+                    <button class="accordion">How does Rhythmoji work?</button>
+                    <div class="panel">
+                        <p>Rhythmoji analyzes your Spotify listening history and creates a unique LEGO-style figure that represents your music taste.</p>
+                    </div>
+
+                    <button class="accordion">Is Rhythmoji free to use?</button>
+                    <div class="panel">
+                        <p>Yes, Rhythmoji is completely free to use! All you need is a Spotify account.</p>
+                    </div>
+
+                    <button class="accordion">Are there any privacy concerns with Rhythmoji?</button>
+                    <div class="panel">
+                        <p>We only access your Spotify listening history with your permission and do not store any personal data.</p>
+                    </div>
+
+                    <button class="accordion">Can I share my Rhythmoji figure?</button>
+                    <div class="panel">
+                        <p>Yes! You can download and share your Rhythmoji figure on social media.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="swiper-container swiper1">
             <div class="swiper-wrapper">
                 <div class="swiper-slide"><img src="images/owl5.jpg" alt="Bear" oncontextmenu="return false;" draggable="false"></div>
@@ -79,7 +120,28 @@
     </div>
 </div>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="/static/js/warp-background.js"></script>
     <script>
+        // Initialize accordion functionality
+        var acc = document.getElementsByClassName("accordion");
+        for (var i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                const faqItem = this.parentElement;
+                faqItem.classList.toggle("active");
+                
+                const panel = this.nextElementSibling;
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                    panel.classList.remove("active");
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                    panel.classList.add("active");
+                } 
+            });
+        }
+
+        // Initialize swipers
         var swiper1 = new Swiper('.swiper1', {
             loop: true,
             slidesPerView: 5,

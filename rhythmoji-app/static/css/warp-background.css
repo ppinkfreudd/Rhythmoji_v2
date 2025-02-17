@@ -1,0 +1,80 @@
+.warp-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: transparent;
+}
+
+.warp-background {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    clip-path: inset(0);
+    perspective: 100px;
+    transform-style: preserve-3d;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.warp-side {
+    position: absolute;
+    transform-style: preserve-3d;
+    background-size: 5% 5%;
+    background: linear-gradient(90deg, var(--grid-color) 0 1px, transparent 1px var(--beam-size)) 50% 50% / var(--beam-size) var(--beam-size);
+    container-type: inline-size;
+    height: 100cqmax;
+    width: 100cqi;
+    opacity: 1;
+}
+
+.warp-side.top {
+    transform-origin: 50% 0%;
+    transform: rotateX(-90deg);
+}
+
+.warp-side.bottom {
+    top: 100%;
+    transform-origin: 50% 0%;
+    transform: rotateX(-90deg);
+}
+
+.warp-side.left {
+    left: 0;
+    top: 0;
+    transform-origin: 0% 0%;
+    transform: rotate(90deg) rotateX(-90deg);
+    width: 100cqh;
+}
+
+.warp-side.right {
+    right: 0;
+    top: 0;
+    transform-origin: 100% 0%;
+    transform: rotate(-90deg) rotateX(-90deg);
+    width: 100cqh;
+}
+
+.beam {
+    position: absolute;
+    left: var(--x);
+    top: 0;
+    width: var(--width);
+    aspect-ratio: 1/var(--aspect-ratio);
+    background: var(--background);
+    transform: translateX(-50%);
+    animation: beamMove var(--duration) var(--delay) linear infinite;
+    opacity: 1;
+}
+
+@keyframes beamMove {
+    from {
+        transform: translateY(100cqmax) translateX(-50%);
+    }
+    to {
+        transform: translateY(-100%) translateX(-50%);
+    }
+} 

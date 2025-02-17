@@ -43,10 +43,6 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
-app.get('/about', (req, res) => {
-    res.sendFile(__dirname + '/about.html');
-});
-
 app.get('/privacy', (req, res) => {
     res.sendFile(__dirname + '/privacy.html');
 });

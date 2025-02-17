@@ -5,6 +5,17 @@ body {
     min-height: 100vh; /* Full viewport height */
     margin: 0; /* Remove default body margin */
     padding-top: 20px; /* Adds some space on the top */
+    background: linear-gradient(
+        45deg,
+        #ff8080,
+        #ffb366,
+        #ffff66,
+        #80ff80,
+        #66a3ff,
+        #cc66ff
+    );
+    background-size: 300% 300%;
+    animation: warp 15s ease infinite;
 }
 
 .content-container {
@@ -13,14 +24,32 @@ body {
     width: 100%;
 }
 
+.main-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 2rem auto;
+    position: relative;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 16px;
+    padding: 2rem;
+    color: white;
+    backdrop-filter: blur(10px);
+}
+
 #about {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Keeps child elements centered */
-    justify-content: flex-start; /* Aligns content to the top */
+    align-items: center;
+    justify-content: flex-start;
     max-width: 70%;
-    width: 100%; /* Ensures #about takes full width of its container */
-    margin-top: 2rem; /* Adds space on the top, adjust as needed */
+    width: 100%;
+    margin-top: 2rem;
+    overflow-y: auto;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    backdrop-filter: blur(10px);
 }
 
 /* Swiper specific styles if necessary */
@@ -198,4 +227,24 @@ body {
     color: #555;
     font-size: 1em;
     text-align: left;
+}
+
+/* Add warp background effect */
+@keyframes warp {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Ensure sidebar stays above the animated background */
+.sidebar {
+    background-color: #ffffff;
+    z-index: 1000;
+    position: relative;
 }
