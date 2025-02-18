@@ -60,6 +60,49 @@ function showHome() {
     document.querySelectorAll('.swiper-container').forEach(container => {
         container.style.display = 'block';
     });
+
+    // Destroy existing swipers if they exist
+    if (window.swiper1) swiper1.destroy(true, true);
+    if (window.swiper2) swiper2.destroy(true, true);
+    if (window.swiper3) swiper3.destroy(true, true);
+
+    // Reinitialize swipers
+    window.swiper1 = new Swiper('.swiper1', {
+        loop: true,
+        slidesPerView: 5,
+        freeMode: false,
+        allowTouchMove: false,
+        autoplay: {
+            delay: 0,
+            disableOnInteraction: false,
+        },
+        speed: 5000,
+    });
+
+    window.swiper2 = new Swiper('.swiper2', {
+        loop: true,
+        slidesPerView: 5,
+        freeMode: false,
+        allowTouchMove: false,
+        autoplay: {
+            delay: 0,
+            disableOnInteraction: false,
+            reverseDirection: true,
+        },
+        speed: 5000,
+    });
+
+    window.swiper3 = new Swiper('.swiper3', {
+        loop: true,
+        slidesPerView: 5,
+        freeMode: false,
+        allowTouchMove: false,
+        autoplay: {
+            delay: 0,
+            disableOnInteraction: false,
+        },
+        speed: 5000,
+    });
 }
 
 function showAbout() {
